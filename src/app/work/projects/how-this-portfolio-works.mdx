@@ -1,0 +1,26 @@
+---
+title: "이 포트폴리오는 어떻게 만들었나요?"
+publishedAt: "2025-04-05"
+summary: "Next.js + Vercel + Groq API + RAG 챗봇으로 구성된 AI 포트폴리오 아키텍처"
+tag: "Meta"
+---
+
+## 전체 아키텍처
+
+이 포트폴리오 자체가 하나의 AI 프로젝트입니다.
+
+| 레이어 | 기술 | 비용 |
+|--------|------|------|
+| 프론트엔드 | Next.js, Once UI, Vercel | ₩0 |
+| 백엔드 API | Next.js API Routes (Vercel) | ₩0 |
+| LLM | Groq API (Llama 3.3 70B) | ₩0 |
+| 지식베이스 | TypeScript 파일 기반 RAG | ₩0 |
+| 배포 | Vercel (git push → 자동 배포) | ₩0 |
+
+## 챗봇 동작 방식
+
+1. 방문자가 "어떤 기술 스택을 쓰나요?" 질문
+2. `/api/chat` API Route가 요청 수신
+3. 승호의 정보가 담긴 지식베이스를 시스템 프롬프트에 삽입
+4. Groq API (Llama 3.3 70B)가 맥락 기반 답변 생성
+5. 스트리밍으로 실시간 타이핑 효과 제공
