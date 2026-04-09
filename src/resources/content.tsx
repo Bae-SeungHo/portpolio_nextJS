@@ -102,14 +102,39 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        AI Platform Engineer with 3+ years at KB Kookmin Bank, building
+        {/* ── 한국어 ── */}
+        <strong>도전을 두려워하지 않는 AI Platform Engineer입니다.</strong>
+        <br /><br />
+        대학 시절 공모전 30회 이상 도전해 10회 이상 수상하고,
+        ETRI·Qisens AI 인턴을 마치고, MCL 연구실에서 논문 5편을 발표했습니다.
+        졸업 후에는 KB국민은행에서 수백만 고객이 이용하는 AI 서비스를
+        Python · Kubernetes · AWS로 설계·개발·운영하고 있습니다.
+        <br /><br />
+        <em>"정확한 것보다 유의미한 것을 배포한다"</em>
+        <br /><br />
+
+        {/* ── 구분선 ── */}
+        <span style={{ display: "block", borderTop: "0.5px solid var(--neutral-alpha-weak)", margin: "1rem 0", opacity: 0.4 }} />
+
+        {/* ── English ── */}
+        <span style={{ fontSize: "0.92em", color: "var(--neutral-on-background-weak)" }}>
+          <strong>AI Platform Engineer who never stops challenging.</strong>
+          <br /><br />
+          During university, I entered 30+ competitions and won 10+, completed
+          internships at ETRI and Qisens AI, and published 5 research papers.
+          Now at KB Kookmin Bank, I design and operate AI services used by
+          millions — with Python, Kubernetes, and AWS.
+          <br /><br />
+          <em>"Ship what is meaningful, not just what is accurate."</em>
+        </span>
+        {/* AI Platform Engineer with 3+ years at KB Kookmin Bank, building
         production AI services used by millions. I work across the full
         stack — from training ML models and designing Python backends to
         deploying containerized services on Kubernetes and AWS.
         <br /><br />
         Before industry, I won 11 AI & software competitions.
         I believe the best engineers don't just
-        write code — they ship systems that earn trust.
+        write code — they ship systems that earn trust. */}
       </>
     ),
   },
@@ -118,29 +143,56 @@ const about: About = {
     title: "Work Experience",
     experiences: [
       {
-        company: "KB Kookmin Bank",
+        company: "KB국민은행 (KB Kookmin Bank)",
         timeframe: "2022.12 — Present",
         role: "AI Platform Engineer (대리, 고객컨택혁신부)",
         achievements: [
           <>
-            Built and operated an <strong>AI Learning Management Platform</strong> handling
-            chatbot & callbot training data for millions of customer interactions —
-            Python/Flask backend, MySQL, Kubernetes on AWS.
+            <strong>[2025.06~현재]</strong> 직원 업무 효율화 플랫폼 개발 —
+            다수 챗봇 통합 운영의 비효율을 해결하는 AI 학습관리 플랫폼.
+            온톨로지 구조 설계 · REST API · 데이터 시각화.<br />
+            <span style={{ fontSize: "0.88em", color: "var(--neutral-on-background-weak)" }}>
+              Internal AI Productivity Platform: integrating multiple bot engines, ontology design, REST API, data visualization.
+            </span>
           </>,
           <>
-            Led PoC of <strong>Unreal Engine-based Virtual AI Counselor</strong> —
-            integrated pixel streaming, Audio2Face facial synthesis pipeline,
-            and mobile web app.
+            <strong>[2024.09~현재]</strong> 고객컨택혁신부 — 대고객 챗봇·콜봇 통합 운영 및 고도화.
+            2025년 RDA 에이전트 개발 경진대회 <strong>우수상</strong> 수상.<br />
+            <span style={{ fontSize: "0.88em", color: "var(--neutral-on-background-weak)" }}>
+              Chatbot & callbot unified operations. Won Excellence Award at RDA Agent Competition 2025.
+            </span>
           </>,
           <>
-            Managed <strong>Mobile AI Financial Assistant</strong> service (press-covered) —
-            Kubernetes pod management, resource patching, cache optimization,
-            video synthesis module operation.
+            <strong>[2022.12~2024.09]</strong> 금융AI센터 — 실사 아바타 기반 AI 금융비서 서비스 개발·운영.
+            Lambda scheduling + HPA로 클라우드 비용 최적화. DevOps · CI/CD 구축.{" "}
+            <a href="https://www.etnews.com/20240306000220" target="_blank" rel="noopener noreferrer"
+               style={{ color: "var(--brand-on-background-medium)" }}>
+              언론 보도 →
+            </a><br />
+            <span style={{ fontSize: "0.88em", color: "var(--neutral-on-background-weak)" }}>
+              AI Financial Assistant: avatar-based chatbot, cloud cost optimization via Lambda & HPA, CI/CD pipelines.
+            </span>
           </>,
-          <>
-            Responsible for <strong>bot engine QA data embedding & visualization</strong>,
-            automating what was previously manual work for ops teams.
-          </>,
+
+          // <>
+          //   Built and operated an <strong>AI Learning Management Platform</strong> handling
+          //   chatbot & callbot training data for millions of customer interactions —
+          //   Python/Flask backend, MySQL, Kubernetes on AWS.
+          // </>,
+          // <>
+          //   Led PoC of <strong>Unreal Engine-based Virtual AI Counselor</strong> —
+          //   integrated pixel streaming, Audio2Face facial synthesis pipeline,
+          //   and mobile web app.
+          // </>,
+          // <>
+          //   Managed <strong>Mobile AI Financial Assistant</strong> service (press-covered) —
+          //   Kubernetes pod management, resource patching, cache optimization,
+          //   video synthesis module operation.
+          // </>,
+          // <>
+          //   Responsible for <strong>bot engine QA data embedding & visualization</strong>,
+          //   automating what was previously manual work for ops teams.
+          // </>,
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
@@ -158,13 +210,21 @@ const about: About = {
         role: "AI Engineer Intern (ICT 학부인턴십)",
         achievements: [
           <>
-            Developed <strong>Semantic & Instance Segmentation models</strong> for aerial imagery
-            — ship detection with bounding-box-to-coordinate projection using QGIS/GDAL.
+            항공 영상 객체 Segmentation 모델 개발 및 최적화.<br />
+            그림자 제거 GAN 모델 적용으로 영상 전처리 성능 개선.<br />
+            <span style={{ fontSize: "0.88em", color: "var(--neutral-on-background-weak)" }}>
+              Aerial image segmentation model. Shadow removal GAN for improved preprocessing.
+            </span>
           </>,
-          <>
-            Built full pipeline: data collection → labeling → model training → optimization
-            for satellite/aerial image analysis.
-          </>,
+
+          // <>
+          //   Developed <strong>Semantic & Instance Segmentation models</strong> for aerial imagery
+          //   — ship detection with bounding-box-to-coordinate projection using QGIS/GDAL.
+          // </>,
+          // <>
+          //   Built full pipeline: data collection → labeling → model training → optimization
+          //   for satellite/aerial image analysis.
+          // </>,
         ],
         images: [],
       },
@@ -174,10 +234,17 @@ const about: About = {
         role: "Research Intern — Medical IT Convergence Lab",
         achievements: [
           <>
-            Developed a <strong>deep learning-based blood pressure estimation model</strong>
-            using PPG signal shape and time-domain attributes.
-            Published as a paper in Korean Communications Society journal.
+            PPG·ECG 생체신호 기반 혈압 추정 딥러닝 모델 개발.<br />
+            Multi Camera Calibration · Multi Person Skeleton Detection 연구.<br />
+            <span style={{ fontSize: "0.88em", color: "var(--neutral-on-background-weak)" }}>
+              Blood pressure estimation model using PPG/ECG bio-signals. Multi-person skeleton detection research.
+            </span>
           </>,
+          // <>
+          //   Developed a <strong>deep learning-based blood pressure estimation model</strong>
+          //   using PPG signal shape and time-domain attributes.
+          //   Published as a paper in Korean Communications Society journal.
+          // </>,
         ],
         images: [],
       },
@@ -191,6 +258,14 @@ const about: About = {
         name: "영남대학교 (Yeungnam University)",
         description: (
           <>
+            학사 졸업 2017.03 – 2023.02 · 전공 GPA <strong>4.46 / 4.5</strong> · 전체 GPA 4.2 / 4.5<br />
+            전액장학금 수혜 (Full-ride scholarship)<br />
+            MCL 학부연구원 · 한국통신학회·대한임베디드공학회 논문 5편 발표<br />
+            <span style={{ fontSize: "0.9em", color: "var(--neutral-on-background-weak)" }}>
+              B.S. in Information &amp; Communication Engineering. Top-ranked GPA with full scholarship.
+              Undergraduate researcher at MCL. 5 academic papers.
+            </span>
+            
             B.S. in Information & Communication Engineering, 2017–2022.
             <br />
             GPA: 4.46 / 4.5 (Major) · 4.2 / 4.5 (Overall) — Graduated top of major.
@@ -240,7 +315,7 @@ const about: About = {
   },
   awards: {
     display: true,
-    title: "Awards",
+    title: "Awards", //TODO description 으로 변경
     items: [
       { title: "KB국민은행 AI Challenge", award: "우수상", year: "2021", org: "KB Kookmin Bank" },
       { title: "SK AI Challenge for Our Society", award: "우수상", year: "2021", org: "SK Telecom" },

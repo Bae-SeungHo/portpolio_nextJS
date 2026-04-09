@@ -18,6 +18,9 @@ import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
+import BadgeGrid from "@/components/BadgeGrid";
+
+
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -400,7 +403,37 @@ export default function About() {
               </Column>
             </Column>
           )}
-   
+          <Column gap="l" paddingY="xl">
+            <Heading as="h2" variant="display-strong-s">기술 스택 상세</Heading>
+            <Column gap="s">
+              {[
+                { area: "언어", items: ["Python ★★★", "JavaScript ★★★", "C/C++ ★★", "Kotlin ★★"] },
+                { area: "AI/ML", items: ["PyTorch", "TensorFlow", "LangChain", "YOLO", "OpenCV", "RAG"] },
+                { area: "백엔드", items: ["Flask", "FastAPI", "Node.js", "REST API", "MySQL"] },
+                { area: "인프라", items: ["Kubernetes", "AWS (EKS/EC2/S3/Lambda)", "Docker", "CI/CD", "HPA"] },
+                { area: "프론트", items: ["React", "Next.js", "Tailwind CSS"] },
+                { area: "자격증", items: ["PCCP LV3", "PCCE Master", "ADsP"] },
+              ].map((row) => (
+                <Flex key={row.area} gap="m" paddingY="s"
+                  borderBottom="neutral-alpha-weak">
+                  <Text variant="body-strong-s" style={{ minWidth: 80 }} onBackground="neutral-weak">
+                    {row.area}
+                  </Text>
+                  <Flex gap="s">
+                    {row.items.map((item) => (
+                      <Badge key={item}>{item}</Badge>
+                    ))}
+                  </Flex>
+                </Flex>
+              ))}
+            </Column>
+          </Column>
+
+          // 자격증 섹션
+          <Column gap="l" paddingY="xl">
+            <Heading as="h2" variant="display-strong-s">자격증 · Certifications</Heading>
+            <BadgeGrid />
+          </Column>
           {/* {about.awards?.display && (
             <Column gap="l" paddingY="xl">
               <Heading as="h2" variant="display-strong-s">

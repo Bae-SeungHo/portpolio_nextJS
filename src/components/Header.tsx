@@ -166,6 +166,16 @@ export const Header = () => {
                   </Row>
                 </>
               )}
+              <a href="/terminal" style={{
+                padding: "4px 12px", borderRadius: 6,
+                border: "0.5px solid var(--neutral-alpha-medium)",
+                fontSize: 12, fontFamily: "monospace",
+                color: "var(--neutral-on-background-weak)",
+                textDecoration: "none",
+                background: "var(--background-overlay)",
+              }}>
+                &gt;_ terminal
+              </a>
               {display.themeSwitcher && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />

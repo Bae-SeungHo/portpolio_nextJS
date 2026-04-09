@@ -15,6 +15,8 @@ import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+import Timeline from "@/components/Timeline";
+
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -100,6 +102,15 @@ export default function Home() {
           </RevealFx>
         </Column>
       </Column>
+      <Column gap="l" paddingY="xl">
+        <Heading as="h2" variant="display-strong-s">
+          도전의 기록
+        </Heading>
+        <Text variant="body-default-m" onBackground="neutral-weak">
+          2017년부터 현재까지 — 멈추지 않는 여정
+        </Text>
+        <Timeline />
+      </Column>
       <RevealFx translateY="16" delay={0.6}>
         <Projects range={[1, 1]} />
       </RevealFx>
@@ -122,9 +133,11 @@ export default function Home() {
             <Line maxWidth={48} />
           </Row>
         </Column>
+        
       )}
       <Projects range={[2]} />
       <Mailchimp />
     </Column>
+    
   );
 }
