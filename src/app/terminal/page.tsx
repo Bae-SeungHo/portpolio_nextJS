@@ -5,8 +5,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 // ─── Supabase 방명록 연결 ───────────────────────
 import { createClient } from "@supabase/supabase-js";
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
 );
 
 // ─── 명령어 정의 ────────────────────────────────
@@ -42,7 +42,7 @@ const COMMANDS: Record<string, (args: string[]) => Promise<string> | string> = {
   ███████║███████╗╚██████╔╝██║ ╚████║╚██████╔╝   ██║  ██║╚██████╔╝
   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝    ╚═╝  ╚═╝ ╚═════╝
   
-  
+
     이름    : 배승호 (Bae Seung-Ho)
     직함    : AI Platform Engineer
     현직    : KB국민은행 고객컨택혁신부 대리
