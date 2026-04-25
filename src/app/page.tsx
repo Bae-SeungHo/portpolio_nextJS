@@ -18,6 +18,8 @@ import Timeline from "@/components/Timeline";
 import CasualIntroSection from "@/components/CasualIntroSection";
 import ContactChallenge from "@/components/ContactChallenge";
 import MiniTerminal from "@/components/MiniTerminal";
+import { TypewriterRole } from "@/components/TypewriterRole";
+
 import {
   StatusBadge,
   ImpactStats,
@@ -48,7 +50,7 @@ export default function Home() {
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          image: `${baseURL}${person.avatar_wide}`,
         }}
       />
 
@@ -80,24 +82,28 @@ export default function Home() {
             </RevealFx>
           )}
 
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
+          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="8">
             <Heading wrap="balance" variant="display-strong-l">
               {home.headline}
             </Heading>
           </RevealFx>
 
-          <RevealFx
-            translateY="8"
-            delay={0.2}
-            fillWidth
-            horizontal="center"
-            paddingBottom="32"
-          >
-            <Text
-              wrap="balance"
-              onBackground="neutral-weak"
-              variant="heading-default-xl"
-            >
+          {/* 타이핑 효과 — Heading 바로 아래 */}
+          <RevealFx translateY="8" delay={0.15} fillWidth horizontal="center" paddingBottom="16">
+            <div style={{
+              fontSize: "clamp(16px, 2.5vw, 22px)",
+              fontWeight: 500,
+              height: 32,  // 높이 고정으로 레이아웃 안 흔들리게
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <TypewriterRole />
+            </div>
+          </RevealFx>
+
+          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
+            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
               {home.subline}
             </Text>
           </RevealFx>
@@ -160,7 +166,7 @@ export default function Home() {
               >
                 {person.avatar ? (
                   <img
-                    src={person.avatar}
+                    src={person.avatar_wide}
                     alt={person.name}
                     style={{
                       width: "100%",
@@ -187,7 +193,7 @@ export default function Home() {
                       {person.firstName?.[0]}{person.lastName?.[0]}
                     </div>
                     <Text variant="body-default-s" onBackground="neutral-weak">
-                      /images/avatar.jpg 추가 필요
+                      /images/avatar_wide.jpg 추가 필요
                     </Text>
                   </div>
                 )}
@@ -209,6 +215,7 @@ export default function Home() {
             </div>
           </div>
         </RevealFx>
+
       {/* ══════════════════════════════════════════
           SECTION 3 — 캐주얼 카드 (가로 그리드)
           CasualIntroSection 내부도 CSS grid 사용해야 함
@@ -219,6 +226,7 @@ export default function Home() {
         </div>
       </RevealFx>
 
+
       {/* ══════════════════════════════════════════
           SECTION 4 — 임팩트 숫자
       ══════════════════════════════════════════ */}
@@ -226,6 +234,69 @@ export default function Home() {
         <div style={{ width: "100%" }}>
           <ImpactStats />
         </div>
+      </RevealFx>
+
+      {/* ══════════════════════════════════════════
+          SECTION 9 — 주요 프로젝트
+      ══════════════════════════════════════════ */}
+      <RevealFx translateY="16" fillWidth>
+        <Projects range={[1, 2]} />
+      </RevealFx>
+
+
+
+      {/* ══════════════════════════════════════════
+          SECTION 6 — 타임라인 (중앙 정렬)
+      ══════════════════════════════════════════ */}
+      <RevealFx translateY="16" fillWidth>
+        {/* 중앙 정렬을 위해 maxWidth + 자동 마진 사용 */}
+        <div style={{ width: "100%", maxWidth: 900, margin: "0 auto" }}>
+          <Column gap="l" paddingY="xl">
+            {/* 타이틀도 중앙 */}
+            <div style={{ textAlign: "center" }}>
+              <Heading as="h2" variant="display-strong-s">
+                도전과 열정의 기록
+              </Heading>
+              <Text
+                variant="body-default-m"
+                onBackground="neutral-weak"
+              >
+                — 2017년부터 현재까지 —
+              </Text>
+            </div>
+            <Timeline />
+          </Column>
+        </div>
+      </RevealFx>
+
+      {/* ══════════════════════════════════════════
+          SECTION 7 — 기술 스택
+      ══════════════════════════════════════════ */}
+      <RevealFx translateY="16" fillWidth>
+        <div style={{ width: "100%" }}>
+          <Column gap="l">
+            <Column gap="xs">
+              <Heading as="h2" variant="display-strong-s">
+                기술 스택
+              </Heading>
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                카테고리를 눌러 필터링할 수 있어요
+              </Text>
+            </Column>
+            <SkillGrid />
+          </Column>
+        </div>
+      </RevealFx>
+
+
+      {/* ══════════════════════════════════════════
+          SECTION 8 — 상태 + 요즘 위젯
+      ══════════════════════════════════════════ */}
+      <RevealFx translateY="16" fillWidth>
+        <Column gap="m" fillWidth>
+          <StatusBadge />
+          <NowWidget />
+        </Column>
       </RevealFx>
 
       {/* ══════════════════════════════════════════
@@ -254,65 +325,6 @@ export default function Home() {
         </RevealFx>
       )}
 
-      {/* ══════════════════════════════════════════
-          SECTION 6 — 타임라인 (중앙 정렬)
-      ══════════════════════════════════════════ */}
-      <RevealFx translateY="16" fillWidth>
-        {/* 중앙 정렬을 위해 maxWidth + 자동 마진 사용 */}
-        <div style={{ width: "100%", maxWidth: 900, margin: "0 auto" }}>
-          <Column gap="l" paddingY="xl">
-            {/* 타이틀도 중앙 */}
-            <div style={{ textAlign: "center" }}>
-              <Heading as="h2" variant="display-strong-s">
-                도전의 기록
-              </Heading>
-              <Text
-                variant="body-default-m"
-                onBackground="neutral-weak"
-              >
-                2017년부터 현재까지 — 멈추지 않는 여정
-              </Text>
-            </div>
-            <Timeline />
-          </Column>
-        </div>
-      </RevealFx>
-
-      {/* ══════════════════════════════════════════
-          SECTION 7 — 기술 스택
-      ══════════════════════════════════════════ */}
-      <RevealFx translateY="16" fillWidth>
-        <div style={{ width: "100%" }}>
-          <Column gap="l">
-            <Column gap="xs">
-              <Heading as="h2" variant="display-strong-s">
-                기술 스택
-              </Heading>
-              <Text variant="body-default-s" onBackground="neutral-weak">
-                카테고리를 눌러 필터링할 수 있어요
-              </Text>
-            </Column>
-            <SkillGrid />
-          </Column>
-        </div>
-      </RevealFx>
-
-      {/* ══════════════════════════════════════════
-          SECTION 8 — 상태 + 요즘 위젯
-      ══════════════════════════════════════════ */}
-      <RevealFx translateY="16" fillWidth>
-        <Column gap="m" fillWidth>
-          <StatusBadge />
-          <NowWidget />
-        </Column>
-      </RevealFx>
-
-      {/* ══════════════════════════════════════════
-          SECTION 9 — 주요 프로젝트
-      ══════════════════════════════════════════ */}
-      <RevealFx translateY="16" fillWidth>
-        <Projects range={[1, 2]} />
-      </RevealFx>
 
       {/* ══════════════════════════════════════════
           SECTION 10 — 연락하기 (중앙 정렬)

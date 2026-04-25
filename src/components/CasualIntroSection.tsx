@@ -1,42 +1,79 @@
-// src/components/CasualIntroSection.tsx
-// 기존 코드에서 grid 부분만 확인 — minmax 값이 너무 크면 세로로 쌓임
 "use client";
 
 const CARDS = [
-  { emoji: "⚙️", label: "요즘 만들고 있는 것",
-    content: "AI 에이전트들이 서로 일을 나눠서 처리하는 자동화 시스템.\n아직 삽질 중이지만 조금씩 되고 있어요.", accent: "#378ADD" },
-  { emoji: "📖", label: "최근 꽂힌 주제",
-    content: "LLM을 프로덕션에서 안정적으로 운영하는 방법.\n만드는 것보다 유지하는 게 훨씬 어렵더라고요.", accent: "#7F77DD" },
-  { emoji: "☕", label: "없으면 안 되는 것",
-    content: "아이스 아메리카노. 코드가 잘 안 풀릴 때 커피 한 모금이면\n대부분 해결됩니다 (거짓말 아님).", accent: "#D85A30" },
-  { emoji: "🤔", label: "요즘 드는 생각",
-    content: "AI 도구를 잘 쓰는 게 이제 필수 역량이 된 것 같아요.\n어떻게 더 잘 활용할 수 있을지 계속 실험 중입니다.", accent: "#1D9E75" },
-  { emoji: "🎯", label: "다음 목표",
-    content: "내가 매일 쓰는 오픈소스에 PR을 한 번 올려보는 것.\n작더라도 직접 기여해보고 싶어요.", accent: "#EF9F27" },
-  { emoji: "🌱", label: "천천히 배우는 중",
-    content: "더 나은 코드를 작성하는 방법.\n기능이 돌아가는 것과 잘 만든 것은 다른 것 같더라고요.", accent: "#639922" },
+  {
+    emoji: "🏦",
+    label: "빠른 실전 성장",
+    content:
+      "25살에 AI 스타트업과 국책 연구소(ETRI)에서 인턴을 마치고,\n26살부터 KB국민은행에서 수백만 고객의 AI 서비스를 직접 개발·운영하고 있어요.",
+    accent: "#378ADD",
+    accentBg: "#E6F1FB",
+  },
+  {
+    emoji: "🤖",
+    label: "AI 서비스 현대화 경험",
+    content:
+      "기존 룰 기반 ML 챗봇을 생성형 AI와 RAG 아키텍처로 직접 고도화했어요.\n이론이 아니라, 실제 고객 트래픽 위에서 검증한 경험입니다.",
+    accent: "#7F77DD",
+    accentBg: "#EEEDFE",
+  },
+  {
+    emoji: "🏆",
+    label: "열정적인 도전자",
+    content:
+      "대학 시절 1년 동안 공모전 30회 도전, 10회 수상.\n연구실·인턴을 병행하면서도 멈추지 않았어요.\n취업 이후에도 사내 공모전과 자격증 취득을 꾸준히 이어가고 있습니다.",
+    accent: "#EF9F27",
+    accentBg: "#FAEEDA",
+  },
+  {
+    emoji: "🎸",
+    label: "취미 부자 INFP",
+    content:
+      "사내 밴드 동호회 회장 (2년째, 일렉기타).\n클라이밍, 러닝, 스터디, 봉사활동, 사이드 프로젝트까지.\n일과 삶 모두 전력으로 살고 있어요.",
+    accent: "#D85A30",
+    accentBg: "#FAECE7",
+  },
+  {
+    emoji: "🌱",
+    label: "그래도 아직 20대",
+    content:
+      "아슬아슬하지만, 젊은 아이디어와 에너지는 누구보다 넘칩니다.\n새로운 기술을 빠르게 흡수하고, 당장 실전에 적용하는 게 자신 있어요.",
+    accent: "#1D9E75",
+    accentBg: "#E1F5EE",
+  },
 ];
 
 export default function CasualIntroSection() {
   return (
     <div style={{ width: "100%" }}>
-      <p style={{
-        fontSize: 12, color: "var(--neutral-on-background-weak)",
-        marginBottom: 16, letterSpacing: "0.3px", textTransform: "uppercase",
-        margin: "0 0 16px 0",
-      }}>
-        요즘의 나
-      </p>
+      {/* 섹션 헤더 */}
+      <div style={{ marginBottom: 20 }}>
+        <p style={{
+          fontSize: 12,
+          color: "var(--neutral-on-background-weak)",
+          letterSpacing: "0.4px",
+          textTransform: "uppercase",
+          marginBottom: 6,
+        }}>
+          왜 저를 뽑아야 할까요?
+        </p>
+        <p style={{
+          fontSize: 15,
+          fontWeight: 500,
+          color: "var(--neutral-on-background-strong)",
+          lineHeight: 1.5,
+        }}>
+          실무 경험, 기술 깊이, 그리고 멈추지 않는 도전.
+        </p>
+      </div>
 
-      {/* ↓ minmax를 180px로 낮춰서 3열 이상 가로 배치 가능하게 */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-          gap: 10,
-          width: "100%",
-        }}
-      >
+      {/* 카드 그리드 */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gap: 10,
+        width: "100%",
+      }}>
         {CARDS.map((card, i) => (
           <div
             key={i}
@@ -47,24 +84,45 @@ export default function CasualIntroSection() {
               borderTopWidth: "0.5px",
               borderRightWidth: "0.5px",
               borderBottomWidth: "0.5px",
-              borderLeftWidth: 2,
+              borderLeftWidth: 3,
               borderStyle: "solid",
               borderTopColor: "var(--neutral-alpha-medium)",
               borderRightColor: "var(--neutral-alpha-medium)",
               borderBottomColor: "var(--neutral-alpha-medium)",
               borderLeftColor: card.accent,
+              transition: "box-shadow 0.15s",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow =
+                `inset 0 0 0 0.5px ${card.accent}44`;
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
-              <span style={{ fontSize: 15 }}>{card.emoji}</span>
-              <span style={{ fontSize: 11, fontWeight: 500, color: card.accent }}>
+            {/* 라벨 */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 7,
+              marginBottom: 10,
+            }}>
+              <span style={{ fontSize: 16 }}>{card.emoji}</span>
+              <span style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: card.accent,
+                letterSpacing: "0.2px",
+              }}>
                 {card.label}
               </span>
             </div>
+
+            {/* 내용 */}
             <p style={{
               fontSize: 13,
               color: "var(--neutral-on-background-medium)",
-              lineHeight: 1.7,
+              lineHeight: 1.75,
               whiteSpace: "pre-line",
               margin: 0,
             }}>

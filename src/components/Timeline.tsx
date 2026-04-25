@@ -16,31 +16,61 @@ const CATS = [
   { id: "comp",   label: "공모전",     color: "#EF9F27", light: "#FAC775" },
   { id: "intern", label: "인턴십",     color: "#1D9E75", light: "#5DCAA5" },
   { id: "kb",     label: "KB국민은행", color: "#D85A30", light: "#F0997B" },
+  { id: "act",   label: "업무 외 활동", color: "#4F46E5", light: "#A5B4FC" },
+  { id: "certi",   label: "자격증·교육", color: "#0891B2", light: "#67E8F9" },
+  
 ];
+
+// 컬러 참고표 (Once UI 팔레트 기준)
+// Purple  계열: #7F77DD (mid) / #AFA9EC (light)
+// Teal    계열: #1D9E75 (mid) / #5DCAA5 (light)
+// Coral   계열: #D85A30 (mid) / #F0997B (light)
+// Pink    계열: #D4537E (mid) / #ED93B1 (light)
+// Gray    계열: #888780 (mid) / #B4B2A9 (light)
+// Blue    계열: #378ADD (mid) / #85B7EB (light)
+// Green   계열: #639922 (mid) / #97C459 (light)
+// Amber   계열: #BA7517 (mid) / #EF9F27 (light)
+// Red     계열: #E24B4A (mid) / #F09595 (light)
+
+// 사용 안 한 컬러 중 추천
+// Indigo  : / 
+// Cyan    :  / 
+// Rose    : #BE185D / #FDA4AF
+// Violet  : #6D28D9 / #C4B5FD
+// Lime    : #4D7C0F / #A3E635
+// Orange  : #C2410C / #FCA773
+
 
 export const TIMELINE_ACTS = [
   { c:"study",  t:"영남대 정보통신공학과", en:"Yeungnam Univ. ICE",
-    sy:2017,sm:3,  ey:2023,em:2,  d:"전공 GPA 4.46/4.5 · 전액장학금",                          g:["장학금","GPA 4.46"] },
+    sy:2017,sm:3,  ey:2023,em:2,  d:"전액장학금",                          g:["전체 GPA 4.21/4.5","전공 GPA 4.46/4.5"] },
   { c:"mil",    t:"대한민국 육군 복무",   en:"Military Service",
-    sy:2018,sm:1,  ey:2019,em:10, d:"2019.10 전역",                                            g:["의무"] },
+    sy:2018,sm:1,  ey:2019,em:10, d:"2019.10 전역",                                            g:["3개월 조기진급"] },
   { c:"res",    t:"MCL 학부연구생",       en:"Undergraduate Researcher",
-    sy:2020,sm:1,  ey:2022,em:6,  d:"Mobile Communication Lab · 논문 5편 발표",                 g:["논문 5편"] },
+    sy:2020,sm:1,  ey:2022,em:6,  d:"Mobile Communication Lab",                 g:["논문 작성","학술대회 참여"] },
   { c:"work",   t:"교내 근로장학생",      en:"Work-Study Program",
-    sy:2020,sm:3,  ey:2022,em:9,  d:"하나테크놀러지 · 학부 병행 근로",                           g:["근로장학"] },
-  { c:"comp",   t:"공모전 다수 도전·수상", en:"Multiple Competitions",
-    sy:2021,sm:1,  ey:2021,em:12, d:"SK AI Challenge · KB AI Challenge · 임베디드SW 경진대회 외", g:["SK","KB","산업부"] },
+    sy:2020,sm:3,  ey:2022,em:9,  d:"하나테크놀러지 · 중앙도서관 근로활동",                           g:["생활비 벌기"] },
+  { c:"comp",   t:"공모전 집중 기간", en:"Hackathon & Competitions",
+    sy:2021,sm:1,  ey:2021,em:12, d:"AI · 데이터 분석 · Vision · 그 외, 10종", g:["SK","KB","산업통상자원부"] },
   { c:"intern", t:"Qisens AI 인턴십",    en:"AI Startup Internship",
-    sy:2022,sm:3,  ey:2022,em:6,  d:"항공 영상 Segmentation · 그림자 제거 GAN 적용",              g:["CV","딥러닝"] },
-  { c:"intern", t:"ETRI 연구소 인턴십",  en:"ETRI Research Intern",
-    sy:2022,sm:7,  ey:2022,em:8,  d:"의료IT융합연구실 · PPG/ECG 혈압 추정 모델",                  g:["ETRI","생체신호"] },
+    sy:2022,sm:3,  ey:2022,em:6,  d:"항공 영상 Segmentation · Labeling · 학술발표",              g:["Computer Vision","DL"] },
+  { c:"intern", t:"ETRI 연구소 인턴십",  en:"ETRI Research Internship",
+    sy:2022,sm:7,  ey:2022,em:8,  d:" PPG/ECG 기반 혈압 추정 모델 개발, 통신학회 논문 등록",                  g:["ETRI","의료IT융합연구실"] },
   { c:"kb",     t:"금융AI센터 — AI 금융비서", en:"AI Financial Assistant",
-    sy:2022,sm:12, ey:2024,em:9,  d:"아바타 챗봇 개발·운영 · Lambda/HPA 비용 최적화 · CI/CD",    g:["Python","K8s","AWS"] },
+    sy:2022,sm:12, ey:2024,em:9,  d:"아바타 챗봇 개발·운영 · 클라우드 운영 및 비용 최적화 · CI/CD · 학습데이터 정제",    g:["AWS","K8S","DL"] },
+  { c:"certi",     t:"승격 필수 자격 취득 ",  en:"Certifcation for Promotion",
+    sy:2023,sm:6,  ey:2024,em:6, d:"조직내 승격필수 은행업무 교육 3종 수료",     g:["상품판매","자산관리/가계여신","데이터/AI"] },
   { c:"kb",     t:"고객컨택혁신부 — 챗봇·콜봇", en:"Chatbot & Callbot Ops",
-    sy:2024,sm:9,  ey:2026,em:4,  d:"챗봇·콜봇 통합 운영 · 2025 RDA 에이전트 경진대회 우수상",    g:["LLM","Agent"] },
-  { c:"kb",     t:"업무 효율화 플랫폼",   en:"Internal AI Productivity Platform",
-    sy:2025,sm:6,  ey:2026,em:4,  d:"다수 챗봇 통합 관리 플랫폼 · 온톨로지 설계 · REST API",      g:["React","Flask","MySQL"] },
-  { c:"kb",     t:"ECHO 사회공헌 활동",  en:"KB ECHO Program",
-    sy:2025,sm:1,  ey:2025,em:12, d:"KB국민은행 내 청년 사회공헌 문화 선도 그룹 · 2025 수료",     g:["사회공헌"] },
+    sy:2024,sm:9,  ey:2026,em:4,  d:"대고객 챗봇·콜봇 개발 및 운영",    g:["LLM","RAG","데이터 분석"] },
+  { c:"act",     t:"ECHO 사회공헌 활동",  en:"KB ECHO Program",
+    sy:2025,sm:1,  ey:2025,em:12, d:"조직내 청년 사회공헌 문화 선도 그룹 활동",     g:["사회공헌"] },
+  { c:"act",     t:"Chapter 프로그램",  en:"KB Chapter Program",
+    sy:2025,sm:1,  ey:2025,em:12, d:"조직내 IT 인력간 기술역량 강화 커뮤니티 리더 활동",     g:["기술 커뮤니티"] },
+  { c:"certi",     t:"자격증 집중 기간",  en:"Certifcation",
+    sy:2025,sm:3,  ey:2025,em:10, d:"업무와 병행하며 IT 및 회화 자격증 취득",     g:["PCCP","PCCE","ADSP","DASP","SQLD","OPIC"] },
+  { c:"kb",     t:"학습관리시스템 개발",   en:"AI Management System",
+    sy:2025,sm:6,  ey:2026,em:4,  d:"다수 챗봇 통합 운영 · 관리 플랫폼 개발 · 클라우드 환경 구축",      g:["FastAPI","Flask","MySQL","AWS","Redis","DL","JS","HTMX"] },
+  
 ];
 
 type Act = typeof TIMELINE_ACTS[0];
@@ -241,7 +271,10 @@ function TimelineMatrix() {
         ))}
       </div>
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{
+        overflowX: "auto",
+        overflowY: "hidden",   // ← 세로 스크롤 완전 제거
+      }}>
         <div style={{ minWidth: 560 }}>
           <div style={{ marginLeft: 108, position: "relative", height: 22, marginBottom: 4 }}>
             {YEARS.map(y => (
@@ -253,7 +286,7 @@ function TimelineMatrix() {
               }}>{y}</span>
             ))}
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 3,overflow: "hidden"}}>
             {CATS.map(c => {
               const acts = rowMap[c.id] ?? [];
               if (!acts.length) return null;
@@ -263,7 +296,7 @@ function TimelineMatrix() {
                     <span style={{ display: "inline-block", width: 8, height: 8, background: c.color, borderRadius: 2, marginRight: 4, verticalAlign: "middle" }} />
                     {c.label}
                   </div>
-                  <div style={{ position: "relative", flex: 1, height: 26, background: "var(--neutral-alpha-weak)", borderRadius: 3 }}>
+                  <div style={{ position: "relative", flex: 1, height: 26, minHeight:26,maxHeight:26,overflow:'hidden',background: "var(--neutral-alpha-weak)", borderRadius: 3 }}>
                     {YEARS.map(y => (
                       <div key={y} style={{ position: "absolute", left: `${((y - SY) * 12 / TM * 100).toFixed(1)}%`, top: 0, bottom: 0, width: 1, background: "var(--neutral-alpha-weak)", pointerEvents: "none" }} />
                     ))}

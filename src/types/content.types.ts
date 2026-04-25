@@ -21,6 +21,7 @@ export type Person = {
   role: string;
   /** Path to avatar image */
   avatar: string;
+  avatar_wide: string;
   /** Email address */
   email: string;
   /** IANA time zone location */

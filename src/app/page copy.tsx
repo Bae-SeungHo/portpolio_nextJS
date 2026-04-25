@@ -52,7 +52,7 @@ export default function Home() {
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          image: `${baseURL}${person.avatar_wide}`,
         }}
       />
       <Column fillWidth horizontal="center" gap="m">

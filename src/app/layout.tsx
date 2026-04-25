@@ -2,8 +2,9 @@ import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 import ChatWidget from "@/components/ChatWidget";
-
+import { ScrollProgress } from "@/components/ScrollProgress";
 import classNames from "classnames";
+import { Analytics } from "@vercel/analytics/react";
 
 import {
   Background,
@@ -160,8 +161,10 @@ export default async function RootLayout({
           <Header />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
+              <ScrollProgress />
               <RouteGuard>{children}</RouteGuard>
               <ChatWidget />
+              <Analytics />
             </Flex>
           </Flex>
           <Footer />

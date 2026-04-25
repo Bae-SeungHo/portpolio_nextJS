@@ -22,11 +22,26 @@ import React from "react";
 import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+// export async function generateStaticParams(): Promise<{ slug: string }[]> {
+//   const posts = getPosts(["src", "app", "blog", "posts"]);
+//   return posts.map((post) => ({
+  //     slug: post.slug,
+  //   }));
+  // }
+  
+  export async function generateStaticParams() {
+    // const { getPosts } = await import("@/app/utils/utils");
+    const posts = getPosts(["src", "app", "blog", "posts"]);
+    // const posts = getPosts(["src", "app", "[locale]", "blog", "posts"]);
+
+    const locales = ["ko", "en"];
+
+    return locales.flatMap(locale =>
+      posts.map(post => ({
+        locale,
+        slug: post.slug,
+      }))
+    );
 }
 
 export async function generateMetadata({

@@ -1,0 +1,44 @@
+---
+title: "AI 가상 상담원 PoC"
+publishedAt: "2024-06-01"
+summary: "Unreal Engine + Nvidia Audio2Face + 모바일 웹앱을 연결한 비용 효율적 AI 아바타 시스템 개념 검증"
+images: []
+tag: "AI · 3D"
+---
+
+## 배경
+
+AI 금융비서 서비스의 다음 단계로,
+실사에 가까운 3D 아바타가 실시간으로 대화하는 시스템 PoC를 진행했습니다.
+고품질 아바타를 합리적인 비용으로 운영할 수 있는지 검증하는 것이 목표였습니다.
+
+## 시스템 구성
+
+사용자 음성 → STT → LLM 답변 생성 → TTS
+↓
+Nvidia Audio2Face (안면 합성) ← 음성 신호
+↓
+Unreal Engine 3D 렌더링
+↓
+Pixel Streaming → 모바일 웹앱
+
+Pixel Streaming을 활용해 Unreal Engine의 렌더링 결과를
+별도 앱 설치 없이 모바일 브라우저에서 스트리밍합니다.
+사용자는 앱처럼 보이지만 실제로는 서버에서 렌더링됩니다.
+
+## 내가 맡은 역할
+
+- Unreal Engine + Pixel Streaming 파이프라인 구성
+- Nvidia Audio2Face 안면 합성 모듈 연동
+- STT/TTS와 LLM 응답 파이프라인 연결
+- 모바일 웹앱 프론트엔드 개발 및 스트리밍 연동
+
+## 기술 스택
+
+`Unreal Engine` `Nvidia Audio2Face` `Pixel Streaming` `Python` `Web RTC`
+
+## PoC 결과
+
+기술적 구현 가능성을 확인했습니다.
+렌더링 서버 비용과 스트리밍 지연(latency) 문제가
+프로덕션 전환을 위해 추가로 해결해야 할 과제로 도출됐습니다.

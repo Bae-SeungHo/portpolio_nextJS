@@ -1,6 +1,15 @@
 import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
 import { Projects } from "@/components/work/Projects";
+import { TechStack, MetricRow,CalloutBox, ImageGrid } from "@/components/mdx/index";
+
+const components = {
+  // 기존 컴포넌트들...
+  TechStack,
+  MetricRow,
+  CalloutBox,
+  ImageGrid,
+};
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -35,3 +44,4 @@ export default function Work() {
     </Column>
   );
 }
+

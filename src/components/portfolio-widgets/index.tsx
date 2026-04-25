@@ -144,16 +144,16 @@ export function SkillGrid() {
 // ══════════════════════════════════════════════════════════════
 const NOW_DATA = {
   music: {
-    active: false,          // ← 듣는 음악이 있을 때 true로
-    track: "곡 이름",
-    artist: "아티스트",
-    url: "",
+    active: true,          // ← 듣는 음악이 있을 때 true로
+    track: "That's Life",
+    artist: "Frank Sinatra",
+    url: "https://youtu.be/TnlPtaPxXfc?si=q-2eGLXlAE7K5bD6",
   },
   reading: {
     active: true,
-    title: "소프트웨어 아키텍처 101",
-    author: "마크 리처즈 외",
-    url: "",
+    title: "Certified Kubernetes Administrator (CKA) Exam Guide",
+    author: "Melony Qin 외",
+    url: "https://product.kyobobook.co.kr/detail/S000202227502",
   },
   watching: {
     active: false,
@@ -161,6 +161,12 @@ const NOW_DATA = {
     platform: "",
     url: "",
   },
+  studying: {
+    active: true,
+    title: "CKA Certification",
+    platform: "",
+    url: "",
+  }
 };
 
 export function NowWidget() {
@@ -168,6 +174,7 @@ export function NowWidget() {
     NOW_DATA.music.active && { emoji:"🎵", label:"듣는 중", text:`${NOW_DATA.music.track} — ${NOW_DATA.music.artist}`, url:NOW_DATA.music.url },
     NOW_DATA.reading.active && { emoji:"📚", label:"읽는 중", text:`${NOW_DATA.reading.title} (${NOW_DATA.reading.author})`, url:NOW_DATA.reading.url },
     NOW_DATA.watching.active && { emoji:"📺", label:"보는 중", text:`${NOW_DATA.watching.title} (${NOW_DATA.watching.platform})`, url:NOW_DATA.watching.url },
+    NOW_DATA.studying.active && { emoji:"💻", label:"공부 중", text:`${NOW_DATA.studying.title} (${NOW_DATA.studying.platform})`, url:NOW_DATA.studying.url },
   ].filter(Boolean) as { emoji:string; label:string; text:string; url:string }[];
 
   if (!items.length) return null;
@@ -234,10 +241,10 @@ export function GitHubCard({ username }: { username: string }) {
 // STATS 배열 수정으로 값 변경
 // ══════════════════════════════════════════════════════════════
 const STATS = [
-  { value: 3,    suffix: "년+",  label: "현업 경험"      },
-  { value: 5,    suffix: "편",   label: "발표 논문"       },
-  { value: 11,   suffix: "회",   label: "공모전 수상"     },
-  { value: 100,  suffix: "%",    label: "월 운영 비용(₩0)" },
+  { value: 4,    suffix: "년+",  label: "현업 경험"      },
+  { value: 5,    suffix: "편",   label: "논문 기여"       },
+  { value: 10,   suffix: "회+",   label: "공모전 수상"     },
+  { value: 0,  suffix: "$",    label: "이 사이트 운영 비용" },
 ];
 
 function useCountUp(target: number, active: boolean) {

@@ -20,6 +20,19 @@ import styles from "@/components/about/about.module.scss";
 import React from "react";
 import BadgeGrid from "@/components/BadgeGrid";
 
+import PublicationList from "@/components/PublicationList";
+// const AWARD_IMAGES: Record<string, string> = {
+//   "KB국민은행 AI Challenge": "/awards/kb-ai-challenge.jpg",
+//   "SK AI Challenge":         "/awards/sk-challenge.jpg",
+//   "제19회 임베디드SW 경진대회": "/awards/embedded-sw.jpg",
+//   "대한임베디드공학회 우수논문발표상": "/awards/best-paper.jpg",
+//   "경북 공공데이터 AI 공모전": "/awards/pohang-technopark.jpg",
+//   "해양경찰 데이터 활용 공모전": "/awards/coast-guard.jpg",
+//   "인공지능 아이디어 공모전": "/awards/ai-idea.jpg",
+//   "영남대 IoT 경진대회": "/awards/iot-competition.jpg",
+//   "AI Speaker 데이터분석 경진대회": "/awards/ai-speaker.jpg",
+// };
+
 
 
 export async function generateMetadata() {
@@ -271,13 +284,14 @@ export default function About() {
               <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
                 {about.studies.title}
               </Heading>
+
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
                     <Text id={institution.name} variant="heading-strong-l">
                       {institution.name}
                     </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                    <Text as="ul" gap="12" variant="heading-default-xs" onBackground="neutral-weak">
                       {institution.description}
                     </Text>
                   </Column>
@@ -302,7 +316,7 @@ export default function About() {
                     <Text id={skill.title} variant="heading-strong-l">
                       {skill.title}
                     </Text>
-                    <Text variant="body-default-m" onBackground="neutral-weak">
+                    <Text as="ul" gap="12" variant="body-default-m" onBackground="neutral-weak">
                       {skill.description}
                     </Text>
                     {skill.tags && skill.tags.length > 0 && (
@@ -340,14 +354,22 @@ export default function About() {
               </Column>
             </>
           )}
-
+          <Column gap="l" paddingY="xl">
+            <Heading as="h2" variant="display-strong-s">논문 및 연구</Heading>
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              영남대학교 MCL 연구실 및 ETRI 인턴십 기간 발표한 논문들입니다.
+            </Text>
+            <PublicationList />
+          </Column>
           {about.awards?.display && (
             <Column gap="l" paddingY="xl">
               <Heading as="h2" variant="display-strong-s">
                 {about.awards.title}
               </Heading>
               <Column gap="m">
-                {about.awards.items.map((item, i) => (
+                {about.awards.items.map((item, i) => {
+                  // const imgSrc = AWARD_IMAGES[item.title];
+                  return (
                   <Flex
                     key={i}
                     // justifyContent="space-between"
@@ -356,14 +378,17 @@ export default function About() {
                     borderBottom="neutral-alpha-weak"
                   >
                     <Column gap="xs">
-                      <Text variant="body-strong-m">{item.title}</Text>
-                      <Text variant="body-default-s" onBackground="neutral-weak">
-                          {item.org} · {item.year}
-                      </Text>
+                      <div key={i}>
+                        {/* {imgSrc && <img src={imgSrc} alt={item.title} />} */}
+                        <Text variant="body-strong-m">{item.title}     </Text>
+                        <Text variant="body-default-s" onBackground="neutral-weak">
+                              {item.org} · {item.year}
+                        </Text>
+                      </div>
                     </Column>
                       <Badge style={{ marginLeft: 'auto' }}>{item.award}</Badge>
                   </Flex>
-                ))}
+                );})}
               </Column>
             </Column>
           )}
@@ -429,7 +454,7 @@ export default function About() {
             </Column>
           </Column>
 
-          // 자격증 섹션
+          {/* // 자격증 섹션 */}
           <Column gap="l" paddingY="xl">
             <Heading as="h2" variant="display-strong-s">자격증 · Certifications</Heading>
             <BadgeGrid />

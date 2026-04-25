@@ -21,11 +21,25 @@ import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+// export async function generateStaticParams(): Promise<{ slug: string }[]> {
+//   const posts = getPosts(["src", "app", "work", "projects"]);
+//   return posts.map((post) => ({
+//     slug: post.slug,
+//   }));
+// }
+
+export async function generateStaticParams() {
   const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  // const posts = getPosts(["src", "app", "[locale]", "work", "projects"]);
+
+  const locales = ["ko", "en"]; // 사용하는 로케일
+
+  return locales.flatMap(locale =>
+    posts.map(post => ({
+      locale,
+      slug: post.slug,
+    }))
+  );
 }
 
 export async function generateMetadata({
