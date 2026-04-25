@@ -370,7 +370,7 @@ const about: About = {
   },
 
   publications: {
-    display: true,
+    display: false,
     title: "Study",
     items: [
       {
