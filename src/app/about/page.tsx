@@ -355,7 +355,7 @@ export default function About() {
             </>
           )}
           <Column gap="l" paddingY="xl">
-            <Heading as="h2" variant="display-strong-s">논문 및 연구</Heading>
+            <Heading as="h2" variant="display-strong-s">Paper & Research</Heading>
             <Text variant="body-default-s" onBackground="neutral-weak">
               영남대학교 MCL 연구실 및 ETRI 인턴십 기간 발표한 논문들입니다.
             </Text>
@@ -432,12 +432,12 @@ export default function About() {
             <Heading as="h2" variant="display-strong-s">기술 스택 상세</Heading>
             <Column gap="s">
               {[
-                { area: "언어", items: ["Python ★★★", "JavaScript ★★★", "C/C++ ★★", "Kotlin ★★"] },
-                { area: "AI/ML", items: ["PyTorch", "TensorFlow", "LangChain", "YOLO", "OpenCV", "RAG"] },
-                { area: "백엔드", items: ["Flask", "FastAPI", "Node.js", "REST API", "MySQL"] },
-                { area: "인프라", items: ["Kubernetes", "AWS (EKS/EC2/S3/Lambda)", "Docker", "CI/CD", "HPA"] },
-                { area: "프론트", items: ["React", "Next.js", "Tailwind CSS"] },
-                { area: "자격증", items: ["PCCP LV3", "PCCE Master", "ADsP"] },
+                { area: "언어", items: ["Python ★★★", "JavaScript ★★", "C/C++ ★★", "Kotlin ★"] },
+                { area: "AI/ML", items: ["PyTorch", "TensorFlow", "LLM", "Hugging Face", "OpenCV", "RAG"] },
+                { area: "백엔드", items: ["Flask", "FastAPI", "REST API", "MySQL"] },
+                { area: "인프라", items: ["Kubernetes", "AWS (EKS/EC2/S3/Lambda)", "Docker", "Jenkins"] },
+                { area: "프론트", items: ["Bootstrap", "HTMX","Next.js","Tailwind CSS"] },
+                // { area: "자격증", items: ["PCCP LV3", "PCCE Master", "ADsP"] },
               ].map((row) => (
                 <Flex key={row.area} gap="m" paddingY="s"
                   borderBottom="neutral-alpha-weak">
@@ -456,7 +456,7 @@ export default function About() {
 
           {/* // 자격증 섹션 */}
           <Column gap="l" paddingY="xl">
-            <Heading as="h2" variant="display-strong-s">자격증 · Certifications</Heading>
+            <Heading as="h2" variant="display-strong-s">Certifications</Heading>
             <BadgeGrid />
           </Column>
           {/* {about.awards?.display && (

@@ -101,18 +101,18 @@ const about: About = {
       <>
         {/* <b>AI Platform Engineer입니다.</b>
         <br /><br /> */}
-        KB국민은행에서 Python, Kubernetes, AWS를 활용해
-        대고객 AI 서비스를 설계하고 운영하고 있습니다.
-        ML 기반 챗봇을 생성형 AI·RAG 아키텍처로 고도화하는 작업을
-        실제 프로덕션 환경에서 진행했고,
-        Lambda scheduling과 HPA로 클라우드 비용도 직접 최적화했습니다.
+        KB국민은행에서 Python, Kubernetes, AWS를 활용해<br/>
+        대고객 AI 서비스를 설계하고 운영하고 있습니다.<br/><br/>
+        ML 기반 챗봇을 생성형 AI·RAG 아키텍처로 고도화하는 작업을<br/>
+        실제 프로덕션 환경에서 진행했고,<br/>
+        조직 내 수기업무 효율화를 위한 파이프라인을 개발하고 있습니다.
         <br /><br />
-        개발자로서 코드를 짜는 것 이상으로,
+        개발자로서 코드를 짜는 것 이상으로,<br/>
         시스템이 실제 사람에게 닿는 순간을 중요하게 생각합니다.
         <br /><br />
         <span style={{ fontSize: "0.9em", color: "var(--neutral-on-background-weak)" }}>
-          I'm an AI Platform Engineer at KB Kookmin Bank,
-          building and operating AI services with Python, Kubernetes, and AWS.
+          I'm an AI Platform Engineer at KB Kookmin Bank,<br/>
+          building and operating AI services with Python, Kubernetes, and AWS.<br/>
           I focus on shipping systems that actually work in production.
         </span>
       </>
@@ -224,20 +224,20 @@ const about: About = {
           {
             src: "/news/genai.png",
             alt: "고객용 챗봇 생성형 AI 현대화",
-            width: 6,
-            height: 12,
+            width: 4,
+            height: 10,
           },
           {
             src: "/news/ai-lms.png",
             alt: "AI학습관리시스템 개발",
-            width: 6,
-            height: 12,
+            width: 4,
+            height: 10,
           },
           {
             src: "/news/ai-assistant.png",
             alt: "AI금융비서 서비스 개발",
-            width: 6,
-            height: 12,
+            width: 4,
+            height: 10,
           },
         ],
       },

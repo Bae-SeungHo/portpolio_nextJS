@@ -255,7 +255,7 @@ export default function Home() {
             {/* 타이틀도 중앙 */}
             <div style={{ textAlign: "center" }}>
               <Heading as="h2" variant="display-strong-s">
-                도전과 열정의 기록
+                배승호의 타임라인
               </Heading>
               <Text
                 variant="body-default-m"
@@ -294,7 +294,7 @@ export default function Home() {
       ══════════════════════════════════════════ */}
       <RevealFx translateY="16" fillWidth>
         <Column gap="m" fillWidth>
-          <StatusBadge />
+          {/* <StatusBadge /> */}
           <NowWidget />
         </Column>
       </RevealFx>

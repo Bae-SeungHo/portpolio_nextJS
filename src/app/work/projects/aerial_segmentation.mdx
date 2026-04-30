@@ -1,68 +1,81 @@
 ---
 title: "항공 영상 시멘틱 세그멘테이션 모델"
 publishedAt: "2022-06-01"
-summary: "Qisens AI 인턴십. UAV 항공 사진에서 도로·주차장을 분할하는 Segmentation 모델. Scribble-Supervised 기법으로 라벨링 비용 절감. Accuracy 72% → 97% 달성."
+summary: "Qisens AI 인턴십. Scribble 기반 Weakly-Supervised + Shadow Removal + 데이터 증강으로 Accuracy 72% → 97% 달성."
 images:
-  - "/projects/qisens/activity.png"
+  - "/projects/etri-intern/activity.jpg"
 tag: "Computer Vision"
 ---
 
-## 회사 소개
+## Qisens AI
 
-Qisens AI는 딥러닝·컴퓨터 비전 전문 스타트업입니다.
-2017년 국제 AI 영상 인식 대회(ILSVRC) 객체인식 부문 세계 3위(국내 1위)를 달성한
-World Class AI 기술력을 보유한 회사로, 한국도로공사, 일본 NEC 등에
-AI 솔루션을 납품한 실적이 있습니다.
+딥러닝·컴퓨터 비전 전문 스타트업입니다. 2017년 국제 AI 영상 인식 대회(ILSVRC) 객체인식 부문 세계 3위(국내 1위)를 달성한 팀이 설립했고, 한국도로공사·일본 NEC에 AI 솔루션을 납품한 실적이 있습니다.
 
-ICT 학부인턴십(2022.03~06)으로 합류해 위성·항공 영상 분석 프로젝트를 담당했습니다.
+2022년 3월부터 6월까지 ICT 학부인턴십으로 합류해 위성·항공 영상 분석 프로젝트를 담당했습니다.
 
 ## 과제
 
-UAV(드론)로 촬영한 항공 사진에서 도로, 주차장, 배경을 분할하는
-Semantic Segmentation 모델을 개발하고 최적화했습니다.
+UAV(드론)로 촬영한 항공 사진에서 도로, 주차장, 배경을 분할하는 Semantic Segmentation 모델 개발 및 최적화.
 
-## 핵심 문제와 해결
+## 문제들
 
-**문제 1: 라벨링 비용**
+항공 사진 작업에는 특유의 어려움이 있었습니다.
 
-Pixel-Level 라벨링은 정확하지만 항공 사진의 형태가 불규칙한 객체(도로, 주차장)는
-라벨링에 막대한 비용이 필요합니다.
+**문제 1 — 라벨링 비용**
 
-해결: **Scribble 기반 Weakly-Supervised Segmentation** 도입.
-낙서(Scribble) 수준의 간단한 라벨링으로 Pixel-Level에 근접한 성능을 달성했습니다.
-슈퍼픽셀 메커니즘 기반 알고리즘을 활용했습니다.
+Pixel-Level 라벨링은 정확하지만, 도로나 주차장처럼 형태가 불규칙한 객체는 경계선을 일일이 그리기가 너무 오래 걸립니다.
 
-**문제 2: 그림자**
+해결: **Scribble 기반 Weakly-Supervised Segmentation** 도입. 대충 선 긋는 수준의 라벨링으로 Pixel-Level에 근접한 성능을 냅니다.
 
-항공 사진에는 시간대에 따라 그림자가 생겨 객체 색상이 왜곡됩니다.
+**문제 2 — 그림자**
 
-해결: **Ghost-free Shadow Removal 모델** (DHAN + SMGAN 기반) 적용.
-그림자가 제거된 데이터셋으로 추가 학습하여 약 6% 성능 향상.
+항공 사진은 시간대마다 그림자 방향이 다릅니다. 같은 도로인데 그림자가 있으면 색이 달라 보여서 모델이 혼란스러워합니다.
 
-**문제 3: 데이터 부족**
+해결: **Ghost-free Shadow Removal 모델** 전처리로 그림자 제거 후 학습.
 
-Google Earth에서 수집한 360장의 학습 데이터는 부족했습니다.
+**문제 3 — 데이터 부족**
 
-해결: **Imgaug 라이브러리**로 명암·대비 조절, 좌우·상하 뒤집기 등 증강 적용.
-3,000장으로 데이터셋을 확장해 21% 성능 향상.
+Google Earth에서 직접 수집한 360장으로는 부족했습니다.
 
-## 최적화 성능 변화
+해결: Imgaug 라이브러리로 명암·대비 조절, 좌우·상하 뒤집기 등 증강 적용. **3,000장**으로 확장.
 
-| 최적화 적용 | Accuracy | mIoU |
-|------------|---------|------|
-| Default | 72.59% | 61.11% |
-| HPO (W&B Sweep) | 77.90% | 68.76% |
-| + Augmentation | 91.28% | 91.18% |
-| + Shadow Removal | 98.41% | 94.72% |
-| + DenseCRF 후처리 | **97.80%** | **93.16%** |
+## 최적화 적용 결과
 
-## 기술 스택
+<Column fillWidth gap="4" marginTop="16">
+  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
+    <Column flex={2}><Text weight="bold">적용한 최적화</Text></Column>
+    <Column flex={1}><Text weight="bold">Accuracy</Text></Column>
+    <Column flex={1}><Text weight="bold">mIoU</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>기본 모델 (Default)</Text></Column>
+    <Column flex={1}><Text>72.59%</Text></Column>
+    <Column flex={1}><Text>61.11%</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>+ Hyperparameter 최적화 (W&B Sweep)</Text></Column>
+    <Column flex={1}><Text>77.90%</Text></Column>
+    <Column flex={1}><Text>68.76%</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>+ 데이터 증강 (Augmentation)</Text></Column>
+    <Column flex={1}><Text>91.28%</Text></Column>
+    <Column flex={1}><Text>91.18%</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>+ Shadow Removal</Text></Column>
+    <Column flex={1}><Text>98.41%</Text></Column>
+    <Column flex={1}><Text>94.72%</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" radius="m-bottom">
+    <Column flex={2}><Text>+ DenseCRF 후처리 (최종)</Text></Column>
+    <Column flex={1}><Text>97.80%</Text></Column>
+    <Column flex={1}><Text>93.16%</Text></Column>
+  </Row>
+</Column>
 
-`Python` `PyTorch` `Deeplab v3+` `GAN` `Shadow Removal` `QGIS` `GDAL` `W&B Sweep` `Imgaug`
+데이터 증강 한 단계에서 개선 폭이 제일 컸습니다. 모델 구조를 바꾸는 것보다 데이터를 늘리는 게 훨씬 효과적이었습니다.
 
 ## 느낀 점
 
-데이터 전처리 하나가 모델 구조 변경보다 훨씬 큰 성능 향상을 가져왔습니다.
-그림자 제거 전처리를 추가하는 것만으로 20% 이상 성능이 올랐습니다.
-Qisens AI가 실제로 한국도로공사, 일본 NEC 등에 납품하는 솔루션과 연관된 프로젝트여서
-실전 수준의 요구사항을 경험할 수 있었습니다.
+복잡한 모델 구조 변경보다 그림자 제거 전처리 하나가 더 큰 성능 향상을 가져왔습니다. 데이터를 이해하는 게 먼저라는 걸 이 프로젝트에서 제대로 배웠습니다.

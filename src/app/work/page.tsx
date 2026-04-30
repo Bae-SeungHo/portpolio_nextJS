@@ -3,6 +3,8 @@ import { baseURL, about, person, work } from "@/resources";
 import { Projects } from "@/components/work/Projects";
 import { TechStack, MetricRow,CalloutBox, ImageGrid } from "@/components/mdx/index";
 
+export const revalidate = 0; // 항상 최신 버전 서빙
+
 const components = {
   // 기존 컴포넌트들...
   TechStack,

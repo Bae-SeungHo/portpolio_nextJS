@@ -3,41 +3,41 @@
 const CARDS = [
   {
     emoji: "🏦",
-    label: "빠른 실전 성장",
+    label: "빠르고 풍부한 실무 경험",
     content:
-      "25살에 AI 스타트업과 국책 연구소(ETRI)에서 인턴을 마치고,\n26살부터 KB국민은행에서 수백만 고객의 AI 서비스를 직접 개발·운영하고 있어요.",
+      "학부 과정에서도 2년간 연구실과 외부 근로기관에서 근무하고,\n25살에 AI 스타트업과 ETRI에서 인턴을 마친 뒤,\n26살부터 현재까지 KB국민은행에서 AI 서비스를 개발·운영하고 있어요.",
     accent: "#378ADD",
     accentBg: "#E6F1FB",
   },
   {
     emoji: "🤖",
-    label: "AI 서비스 현대화 경험",
+    label: "대규모 고객 핸들링 경험",
     content:
-      "기존 룰 기반 ML 챗봇을 생성형 AI와 RAG 아키텍처로 직접 고도화했어요.\n이론이 아니라, 실제 고객 트래픽 위에서 검증한 경험입니다.",
+      "수백만 고객들이 사용하는 여러 봇 시스템의 데이터를 분석하고 운영하였고,\n기존 Rule-based ML 챗봇을 Generative AI와 RAG 아키텍처로 고도화했어요.",
     accent: "#7F77DD",
     accentBg: "#EEEDFE",
   },
   {
     emoji: "🏆",
-    label: "열정적인 도전자",
+    label: "A Passionate Challenger",
     content:
-      "대학 시절 1년 동안 공모전 30회 도전, 10회 수상.\n연구실·인턴을 병행하면서도 멈추지 않았어요.\n취업 이후에도 사내 공모전과 자격증 취득을 꾸준히 이어가고 있습니다.",
+      "목표가 생기면 악착같이 이루는 개발자에요.\n저를 꺽지 못하는 실패는 저를 더 강하게 합니다.",
     accent: "#EF9F27",
     accentBg: "#FAEEDA",
   },
   {
     emoji: "🎸",
-    label: "취미 부자 INFP",
+    label: "커뮤니케이터",
     content:
-      "사내 밴드 동호회 회장 (2년째, 일렉기타).\n클라이밍, 러닝, 스터디, 봉사활동, 사이드 프로젝트까지.\n일과 삶 모두 전력으로 살고 있어요.",
+      "주위 사람들과 좋은 관계를 유지하는것을 중요시하는 INFP 입니다.\n스터디 모임과 사내 밴드 동호회를 운영하고 있고 봉사활동과 사이드 프로젝트까지 꾸준하게 하고 있어요.\n(제 포지션은 일렉기타 입니다.)",
     accent: "#D85A30",
     accentBg: "#FAECE7",
   },
   {
     emoji: "🌱",
-    label: "그래도 아직 20대",
+    label: "아슬아슬하게 20대",
     content:
-      "아슬아슬하지만, 젊은 아이디어와 에너지는 누구보다 넘칩니다.\n새로운 기술을 빠르게 흡수하고, 당장 실전에 적용하는 게 자신 있어요.",
+      "젊은 아이디어와 에너지는 누구보다 넘칩니다.\n새로운 기술을 빠르게 흡수하고, 실무에 바로 적용하는 데에 자신 있어요.",
     accent: "#1D9E75",
     accentBg: "#E1F5EE",
   },
@@ -55,7 +55,7 @@ export default function CasualIntroSection() {
           textTransform: "uppercase",
           marginBottom: 6,
         }}>
-          왜 저를 뽑아야 할까요?
+          저의 어떤 점이 특징인가요?
         </p>
         <p style={{
           fontSize: 15,
@@ -63,7 +63,7 @@ export default function CasualIntroSection() {
           color: "var(--neutral-on-background-strong)",
           lineHeight: 1.5,
         }}>
-          실무 경험, 기술 깊이, 그리고 멈추지 않는 도전.
+          배승호의 5가지 매력 포인트.
         </p>
       </div>
 

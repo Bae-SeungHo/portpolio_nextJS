@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-const SY = 2017, EY = 2026.5, TM = (EY - SY) * 12;
+const SY = 2017, EY = 2026.7, TM = (EY - SY) * 12;
 const mo = (y: number, m: number) => (y - SY) * 12 + (m - 1);
 const pc = (o: number) => `${(o / TM * 100).toFixed(2)}%`;
 const sp = (s: number, e: number) => `${((e - s) / TM * 100).toFixed(2)}%`;
@@ -57,19 +57,21 @@ export const TIMELINE_ACTS = [
   { c:"intern", t:"ETRI 연구소 인턴십",  en:"ETRI Research Internship",
     sy:2022,sm:7,  ey:2022,em:8,  d:" PPG/ECG 기반 혈압 추정 모델 개발, 통신학회 논문 등록",                  g:["ETRI","의료IT융합연구실"] },
   { c:"kb",     t:"금융AI센터 — AI 금융비서", en:"AI Financial Assistant",
-    sy:2022,sm:12, ey:2024,em:9,  d:"아바타 챗봇 개발·운영 · 클라우드 운영 및 비용 최적화 · CI/CD · 학습데이터 정제",    g:["AWS","K8S","DL"] },
-  { c:"certi",     t:"승격 필수 자격 취득 ",  en:"Certifcation for Promotion",
+    sy:2022,sm:12, ey:2024,em:9,  d:"아바타 챗봇 개발·운영 · 클라우드 운영 및 비용 최적화 · CI/CD · 학습데이터 관리",    g:["AWS","K8S","DL"] },
+  { c:"certi",     t:"승격필수 자격 취득 ",  en:"Certifcation for Promotion",
     sy:2023,sm:6,  ey:2024,em:6, d:"조직내 승격필수 은행업무 교육 3종 수료",     g:["상품판매","자산관리/가계여신","데이터/AI"] },
   { c:"kb",     t:"고객컨택혁신부 — 챗봇·콜봇", en:"Chatbot & Callbot Ops",
-    sy:2024,sm:9,  ey:2026,em:4,  d:"대고객 챗봇·콜봇 개발 및 운영",    g:["LLM","RAG","데이터 분석"] },
+    sy:2024,sm:9,  ey:2025,em:6,  d:"대고객 챗봇·콜봇 개발 및 운영",    g:["LLM","RAG","데이터 분석"] },
   { c:"act",     t:"ECHO 사회공헌 활동",  en:"KB ECHO Program",
     sy:2025,sm:1,  ey:2025,em:12, d:"조직내 청년 사회공헌 문화 선도 그룹 활동",     g:["사회공헌"] },
   { c:"act",     t:"Chapter 프로그램",  en:"KB Chapter Program",
     sy:2025,sm:1,  ey:2025,em:12, d:"조직내 IT 인력간 기술역량 강화 커뮤니티 리더 활동",     g:["기술 커뮤니티"] },
   { c:"certi",     t:"자격증 집중 기간",  en:"Certifcation",
-    sy:2025,sm:3,  ey:2025,em:10, d:"업무와 병행하며 IT 및 회화 자격증 취득",     g:["PCCP","PCCE","ADSP","DASP","SQLD","OPIC"] },
+    sy:2025,sm:3,  ey:2025,em:10, d:"업무와 병행하며 IT / 언어 자격증 취득",     g:["PCCP","PCCE","ADSP","DASP","SQLD","OPIC"] },
   { c:"kb",     t:"학습관리시스템 개발",   en:"AI Management System",
     sy:2025,sm:6,  ey:2026,em:4,  d:"다수 챗봇 통합 운영 · 관리 플랫폼 개발 · 클라우드 환경 구축",      g:["FastAPI","Flask","MySQL","AWS","Redis","DL","JS","HTMX"] },
+  { c:"kb",     t:"생성형 AI 챗봇 고도화",   en:"Enhancing Generative AI Chatbots",
+    sy:2026,sm:4,  ey:2026,em:5,  d:"RAG 기반 생성형 AI 챗봇 시스템 구축 (직원용 챗봇 -> 고객용 챗봇)",      g:["RAG","AI Agent","LLM"] },
   
 ];
 

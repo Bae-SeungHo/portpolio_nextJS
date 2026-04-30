@@ -60,7 +60,7 @@ export default function ContactChallenge() {
         잠깐, 어떤 분이세요?
       </p>
       <p style={{ fontSize: 13, color: "var(--neutral-on-background-weak)", marginBottom: "1.25rem" }}>
-        맥락 있는 대화가 더 좋아서요. 30초면 충분해요.
+        더 알아갔으면 좋겠어요.
       </p>
 
       {step !== "done" && (

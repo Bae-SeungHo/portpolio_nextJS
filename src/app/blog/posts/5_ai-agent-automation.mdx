@@ -1,43 +1,84 @@
 ---
-title: "AI 에이전트로 반복 업무를 자동화한 실험"
+title: "AI 에이전트로 반복 업무를 자동화한 실험기"
 publishedAt: "2025-04-01"
-summary: "Crawl4AI, Ollama, n8n으로 구성한 AI 자동화 파이프라인 실험기"
+summary: "Crawl4AI + Ollama + n8n으로 기술 뉴스를 매일 자동 수집·요약하는 파이프라인을 만들었습니다."
 ---
 
-반복하는 업무 중에 "이거 AI가 하면 되겠는데"라는 생각이 드는 순간이 있습니다.
+반복하는 일 중에 "이거 AI가 하면 되겠는데"라는 생각이 드는 순간이 있습니다.
 
-저에게는 기술 뉴스를 읽고 정리하는 작업이 그랬습니다.
-매일 GeekNews, YozmIT, GitHub Trending을 훑어보고
-관심 있는 내용을 메모하는데, 이 과정 자체가 시간이 꽤 걸립니다.
+저는 매일 GeekNews랑 GitHub Trending을 훑어보는 게 그랬습니다. 읽고, 정리하고, 메모하는 데 생각보다 시간이 걸립니다. 그래서 자동화해봤습니다.
 
-그래서 이걸 자동화해봤습니다.
+## 구조
 
-## 구성
+```text
+매일 오전 9시 (n8n 스케줄러)
+    ↓
+Crawl4AI (GeekNews, YozmIT, GitHub Trending 크롤링)
+    ↓
+Ollama Qwen2.5:32b (관련성 스코어링 + 주제 선정)
+    ↓
+Ollama (블로그 초안 작성)
+    ↓
+Tistory API (자동 발행)
+```
 
-Crawl4AI (크롤링) → Ollama (요약·선별) → n8n (스케줄·발행)
+회사 PC에 NVIDIA A5000 GPU가 있어서 Ollama로 32B 모델을 로컬에서 구동합니다. API 비용이 없습니다.
 
-**Crawl4AI**로 여러 기술 뉴스 사이트를 크롤링하고,
-**Ollama**의 Qwen2.5:32b 모델로 관련성과 중요도를 스코어링합니다.
-**n8n**이 매일 오전 스케줄러를 돌려서 전체 파이프라인을 실행합니다.
+## 에이전트 역할 분담
+
+에이전트를 하나로 쓰지 않고 역할별로 나눴습니다.
+
+<Column fillWidth gap="4" marginTop="16">
+  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
+    <Column flex={1}><Text weight="bold">에이전트</Text></Column>
+    <Column flex={2}><Text weight="bold">역할</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>탐색 에이전트</Text></Column>
+    <Column flex={2}><Text>Crawl4AI로 여러 소스 크롤링 + 원문 수집</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>분석 에이전트</Text></Column>
+    <Column flex={2}><Text>수집된 내용 중 블로그로 쓰기 좋은 주제 선정</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>작성 에이전트</Text></Column>
+    <Column flex={2}><Text>선정된 주제로 초안 작성</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" radius="m-bottom">
+    <Column flex={1}><Text>검토 에이전트</Text></Column>
+    <Column flex={2}><Text>초안 다듬기 + SEO 최적화</Text></Column>
+  </Row>
+</Column>
 
 ## 실제로 써보니
 
-AI가 선별한 뉴스 품질이 생각보다 괜찮았습니다.
-특히 GitHub Trending에서 건져온 레포들 중에
-평소엔 못 봤을 것들이 들어오는 게 좋았습니다.
+AI가 선별한 뉴스 품질이 생각보다 괜찮았습니다. GitHub Trending에서 평소엔 못 봤을 레포들이 들어오는 게 좋았습니다.
 
-반면 아직 아쉬운 것도 있습니다.
-맥락 없이 인기가 높다고 선별하는 경우가 있어서,
-저의 관심 분야(AI·MLOps·Kubernetes)에 특화된 필터를 추가 중입니다.
+아직 아쉬운 점도 있습니다. 제 관심 분야(AI·MLOps·Kubernetes)에 특화된 필터링이 부족해서, 가끔 전혀 관심 없는 주제가 선정되기도 합니다. 개인화 레이어를 추가하는 게 다음 과제입니다.
 
-## 회사 A5000 GPU 활용
+## 핵심 코드
 
-회사 PC에 NVIDIA A5000 GPU가 있어서,
-Ollama로 70B 수준의 모델도 로컬에서 구동할 수 있습니다.
-API 비용 없이 실험할 수 있다는 게 큰 장점입니다.
+```python
+# 분석 에이전트 — 가장 좋은 주제 선정
+async def agent_analyst(raw_items: list[dict]) -> dict:
+    combined = "\n".join([f"[{i['source']}] {i['raw']}" for i in raw_items])
 
-## 다음 단계
+    prompt = f"""다음 기술 뉴스 중 한국 개발자 블로그에
+쓰기 가장 좋은 주제 1개를 선정해줘.
+AI, ML, 백엔드, 클라우드, DevOps 관련 우선.
 
-지금은 뉴스 요약 정도지만,
-오픈소스 기여 후보 레포를 자동으로 추천받고
-good-first-issue를 찾아주는 에이전트를 만들어볼 생각입니다.
+수집된 뉴스:
+{combined}
+
+JSON으로만 답해줘:
+{{"title": "...", "topic": "...", "reason": "..."}}"""
+
+    res = requests.post(
+        "http://localhost:11434/api/generate",
+        json={"model": "qwen2.5:32b", "prompt": prompt, "stream": False}
+    )
+    return json.loads(res.json()["response"])
+```
+
+자동화가 잘 돌아가는 날에는 아침에 일어나면 글이 이미 발행되어 있습니다. 작은 성취감이 있습니다.

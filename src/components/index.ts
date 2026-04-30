@@ -8,4 +8,4 @@ export { Providers } from "@/components/Providers";
 export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
-export { BlogFooterWidget } from "@/components/BlogFooterWidget";
+export { default as BlogFooterWidget } from "./BlogFooterWidget";

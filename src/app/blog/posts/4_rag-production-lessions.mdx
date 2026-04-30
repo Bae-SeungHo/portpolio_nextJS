@@ -1,56 +1,100 @@
 ---
 title: "LLM을 프로덕션에서 운영하며 배운 것들"
 publishedAt: "2025-01-15"
-summary: "ML 기반 챗봇을 생성형 AI·RAG로 전환하면서 실제로 마주친 문제들과 해결 방법"
+summary: "KB국민은행 AI 서비스를 운영하면서 실제로 마주친 문제들. 아키텍처 결정, 프롬프트 관리, 모니터링."
 ---
 
 "RAG 구현했다"와 "RAG를 프로덕션에서 운영한다"는 전혀 다른 이야기입니다.
 
-KB국민은행에서 기존 ML 기반 챗봇을 생성형 AI·RAG 아키텍처로 전환하는 작업을
-직접 해보면서 배운 것들을 정리합니다.
+KB국민은행에서 ML 기반 챗봇을 생성형 AI·RAG로 전환하는 작업을 직접 하면서 배운 것들을 정리합니다.
 
-## 1. 청크 사이즈가 성능을 결정한다
+## 1. 청크 크기가 성능을 결정한다
 
-RAG에서 검색 품질은 청크 사이즈에 크게 영향을 받습니다.
+RAG에서 검색 품질은 청크 크기에 크게 좌우됩니다.
 
-너무 크면 → 검색 정확도 떨어짐 (관련 없는 내용이 섞임)
-너무 작면 → 컨텍스트 부족 (답변이 불완전)
+너무 크면 → 관련 없는 내용이 섞여서 검색 정확도 저하
 
-금융 FAQ 도메인에서는 질문-답변 단위로 청크를 구성하는 게
-단순 문자 수 기반 분할보다 훨씬 효과적이었습니다.
+너무 작으면 → 컨텍스트가 부족해서 답변이 불완전
 
-## 2. 프롬프트 엔지니어링은 끝이 없다
+금융 FAQ 도메인에서는 질문-답변 단위로 청크를 구성하는 게 단순 문자 수 기반 분할보다 훨씬 효과적이었습니다.
 
-처음에는 단순하게 시작했습니다.
+```python
+# 단순 분할보다 Q&A 단위 청킹이 효과적
+def chunk_by_qa(document: str) -> list[str]:
+    """Q: / A: 패턴으로 분할"""
+    chunks = []
+    qa_pairs = re.split(r'\n(?=Q:)', document)
+    for pair in qa_pairs:
+        if pair.strip():
+            chunks.append(pair.strip())
+    return chunks
+```
 
-""당신은 금융 상담 AI입니다. 아래 정보를 바탕으로 답변하세요.""
+## 2. 프롬프트는 버전 관리해야 한다
 
-실제 운영하면서 엣지 케이스가 계속 나왔습니다.
-"모르면 지어내지 말 것", "외부 금융 상품 추천 금지",
-"법적 책임이 따르는 답변은 전문가 상담 안내" 등
-프롬프트가 점점 구체화됐습니다.
+```
+당신은 KB국민은행 고객 상담 AI입니다.
+규칙:
 
-프롬프트는 코드처럼 버전 관리해야 합니다.
-변경 이유와 결과를 문서화해두지 않으면 나중에 왜 그렇게 썼는지 기억이 안 납니다.
+모르는 정보는 지어내지 마세요. "담당 직원에게 문의해 주세요"로 안내하세요.
+타 금융사 상품은 언급하거나 비교하지 마세요.
+대출, 투자 관련 구체적인 수익 예측이나 보장은 하지 마세요.
+법적 책임이 따르는 답변은 전문 상담을 권유하세요.
+답변은 2-3문장으로 간결하게 하세요.
+...
+```
 
-## 3. 응답 속도 vs 품질 트레이드오프
+엣지 케이스가 생길 때마다 규칙이 추가됐습니다. 변경 이유와 날짜를 코드 주석으로 남겨두지 않으면 나중에 왜 이 규칙이 있는지 알 수가 없습니다.
 
-스트리밍 응답을 구현하면 체감 속도는 빠릅니다.
-실제로 타이핑되는 것처럼 보이기 때문에 사용자가 기다리는 느낌이 줄어듭니다.
+## 3. 모니터링이 없으면 개선이 없다
 
-하지만 처음 토큰이 나오기까지의 TTFT(Time To First Token)는
-별도로 최적화해야 합니다. Groq API는 이 부분이 경쟁력 있습니다.
+어떤 질문에서 실패하는지 모르면 개선할 수 없습니다.
 
-## 4. 할루시네이션 대응
+<Column fillWidth gap="4" marginTop="16">
+  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
+    <Column flex={1}><Text weight="bold">모니터링 항목</Text></Column>
+    <Column flex={2}><Text weight="bold">확인하는 것</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>검색 유사도 분포</Text></Column>
+    <Column flex={2}><Text>임계값 이하 비율 — 높으면 지식베이스 보강 필요</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>TTFT (첫 토큰까지 시간)</Text></Column>
+    <Column flex={2}><Text>사용자 체감 응답 속도</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>부정 피드백 질의</Text></Column>
+    <Column flex={2}><Text>실패 패턴 파악 → 프롬프트·청크 개선</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" radius="m-bottom">
+    <Column flex={1}><Text>일일 토큰 사용량</Text></Column>
+    <Column flex={2}><Text>API 비용 추적 및 이상 탐지</Text></Column>
+  </Row>
+</Column>
 
-LLM은 모르면 지어냅니다. 금융 도메인에서는 치명적입니다.
+## 4. 스트리밍은 선택이 아니다
 
-대응 방법:
-- 시스템 프롬프트에 "모르면 '확인이 필요합니다'라고 답하라" 명시
-- 검색 유사도 임계값(threshold) 설정 — 관련 청크가 없으면 일반 답변 금지
-- 정기적인 답변 품질 모니터링
+LLM 응답은 느립니다. 스트리밍 없이 완성된 답변을 기다리게 하면 사용자 이탈이 생깁니다.
+
+타이핑되는 것처럼 보이면 사람들이 기다리는 걸 훨씬 덜 불편해합니다. 실제 응답 시간은 같아도 체감이 완전히 다릅니다.
+
+```typescript
+// SSE 스트리밍
+const stream = await groq.chat.completions.create({
+  model: "llama-3.3-70b-versatile",
+  messages: [...],
+  stream: true,
+});
+
+for await (const chunk of stream) {
+  const text = chunk.choices[0]?.delta?.content || "";
+  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+}
+```
 
 ## 마무리
 
-LLM은 강력하지만, 프로덕션 환경에서는 강력함만큼 세심한 관리가 필요합니다.
-실험 환경과 운영 환경은 다릅니다. 그 간극을 메우는 것이 엔지니어링입니다.
+LLM은 강력하지만 그만큼 세심한 관리가 필요한 것 같습니다. 실험 환경에서 잘 됐던 게 프로덕션에서 예상치 못한 방식으로 실패하는 경우가 있기 떄문입니다.
+그 간극을 메우는 것이 결국 AI Engineering 인 것 같습니다.
+감사합니다.

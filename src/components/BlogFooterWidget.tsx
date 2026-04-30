@@ -2,7 +2,7 @@
 "use client";
 import { useState } from "react";
 
-export const BlogFooterWidget = ({}) => {
+export default function BlogFooterWidget() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -94,15 +94,15 @@ export const BlogFooterWidget = ({}) => {
             marginBottom: 12, lineHeight: 1.6 }}>
             피드백이나 질문이 있으면 언제든지 연락 주세요.
           </div>
-          
-            {/* href="mailto:doge@kbfg.com" */}
-            {/* style={{
+{/*           
+            href="mailto:doge@kbfg.com"
+            style={{
               display: "inline-block", padding: "7px 14px", borderRadius: 8,
               border: "0.5px solid var(--neutral-alpha-medium)",
               color: "var(--neutral-on-background-medium)",
               textDecoration: "none", fontSize: 12,
-            }} */}
-          {/* >
+            }}
+          >
             doge@kbfg.com →
           </a> */}
         </div>

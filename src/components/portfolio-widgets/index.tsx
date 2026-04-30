@@ -66,16 +66,27 @@ export function StatusBadge() {
 // SKILL_DATA에 항목 추가/수정
 // ══════════════════════════════════════════════════════════════
 const SKILL_DATA = [
-  { name:"Python",     level:90, cat:"AI/Backend",  color:"#378ADD" },
-  { name:"Kubernetes", level:78, cat:"Infra",        color:"#326CE5" },
-  { name:"AWS",        level:72, cat:"Infra",        color:"#EF9F27" },
-  { name:"PyTorch",    level:80, cat:"AI/ML",        color:"#EE4C2C" },
-  { name:"LangChain",  level:75, cat:"AI/ML",        color:"#1D9E75" },
-  { name:"React",      level:65, cat:"Frontend",     color:"#61DAFB" },
-  { name:"Flask",      level:82, cat:"Backend",      color:"#888780" },
+  { name:"Python",     level:100, cat:"Languages",  color:"#378ADD" },
+  { name:"C++",        level:65, cat:"Languages",  color:"#4ed441" },
+  { name:"JavaScript", level:60, cat:"Languages",  color:"#eeb13f" },
+  { name:"Kubernetes", level:80, cat:"Infra",        color:"#326CE5" },
+  { name:"AWS",        level:75, cat:"Infra",        color:"#EF9F27" },
   { name:"Docker",     level:70, cat:"Infra",        color:"#2496ED" },
+  { name:"LLM",    level:80, cat:"AI/ML",        color:"#EE4C2C" },
+  { name:"Hugging face",  level:75, cat:"AI/ML",        color:"#1D9E75" },
+  { name:"Vision",  level:70, cat:"AI/ML",        color:"#42b6ec" },
+  { name:"HTMX",      level:65, cat:"Frontend",     color:"#61DAFB" },
   { name:"Next.js",    level:60, cat:"Frontend",     color:"#7F77DD" },
-  { name:"MySQL",      level:68, cat:"Database",     color:"#D85A30" },
+  { name:"Flask",      level:82, cat:"Backend",      color:"#888780" },
+  { name:"FastAPI",      level:82, cat:"Backend",      color:"#3549f5" },
+  { name:"MySQL",      level:78, cat:"Database",     color:"#D85A30" },
+  { name:"MongoDB",      level:60, cat:"Database",     color:"#e5a691" },
+  { name:"Redis",      level:60, cat:"Database",     color:"#28dd79" },
+  { name:"SQLite",      level:80, cat:"Database",     color:"#51a7f8" },
+  { name:"Gitlab",      level:80, cat:"CI/CD",     color:"#51a7f8" },
+  { name:"Confluence",      level:90, cat:"CI/CD",     color:"#83e749" },
+  { name:"Jenkins",      level:55, cat:"CI/CD",     color:"#fd70be" },
+  { name:"ArgoCD",      level:80, cat:"CI/CD",     color:"#f1ef6e" },
 ];
 
 export function SkillGrid() {
@@ -163,8 +174,8 @@ const NOW_DATA = {
   },
   studying: {
     active: true,
-    title: "CKA Certification",
-    platform: "",
+    title: "기술 블로그 개발",
+    platform: "AWS",
     url: "",
   }
 };
@@ -174,7 +185,7 @@ export function NowWidget() {
     NOW_DATA.music.active && { emoji:"🎵", label:"듣는 중", text:`${NOW_DATA.music.track} — ${NOW_DATA.music.artist}`, url:NOW_DATA.music.url },
     NOW_DATA.reading.active && { emoji:"📚", label:"읽는 중", text:`${NOW_DATA.reading.title} (${NOW_DATA.reading.author})`, url:NOW_DATA.reading.url },
     NOW_DATA.watching.active && { emoji:"📺", label:"보는 중", text:`${NOW_DATA.watching.title} (${NOW_DATA.watching.platform})`, url:NOW_DATA.watching.url },
-    NOW_DATA.studying.active && { emoji:"💻", label:"공부 중", text:`${NOW_DATA.studying.title} (${NOW_DATA.studying.platform})`, url:NOW_DATA.studying.url },
+    NOW_DATA.studying.active && { emoji:"💻", label:"하는 중", text:`${NOW_DATA.studying.title} (${NOW_DATA.studying.platform})`, url:NOW_DATA.studying.url },
   ].filter(Boolean) as { emoji:string; label:string; text:string; url:string }[];
 
   if (!items.length) return null;

@@ -22,7 +22,7 @@ const routes: RoutesConfig = {
   "/work": true,
   "/blog": true,
   "/gallery": true,
-  "/terminal": true,
+  "/terminal": false,
 };
 
 const display: DisplayConfig = {
@@ -132,8 +132,8 @@ const effects: EffectsConfig = {
     height: "0.25rem",
   },
   lines: {
-    display: false,
-    opacity: 100,
+    display: true,
+    opacity: 50,
     color: "neutral-alpha-weak",
     size: "16",
     thickness: 1,
@@ -196,9 +196,9 @@ const schema: SchemaConfig = {
 
 // social links
 const sameAs: SameAsConfig = {
-  threads: "https://www.threads.com/@once_ui",
+  threads: "https://www.threads.com/@cloge",
   linkedin: "https://www.linkedin.com/in/seung-ho-bae-7392b7282/",
-  discord: "https://discord.com/invite/5EyAQ4eNdS",
+  discord: "https://discord.gg/fXsxyCzJ",
 };
 
 // social sharing configuration for blog posts

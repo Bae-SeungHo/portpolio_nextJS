@@ -1,67 +1,98 @@
 ---
-title: "ML 챗봇을 생성형 AI로 바꾸는 게 생각보다 복잡한 이유"
-publishedAt: "2026-04-18"
-summary: "룰 기반·ML 챗봇을 LLM·RAG로 전환하면서 실제로 마주친 기술적 과제들"
-tag: "Insights"
-image: "/blogs/ml-to-genai.png"
+title: "ML 챗봇을 생성형 AI로 바꾸면서 실제로 겪은 것들"
+publishedAt: "2025-03-01"
+summary: "룰 기반 ML 챗봇을 LLM·RAG로 전환하면서 마주친 실제 문제들. 잘 된 것, 예상보다 어려웠던 것."
 ---
 
-"LLM으로 바꾸면 더 잘 되지 않나요?"
+KB국민은행에서 기존 ML 기반 챗봇을 생성형 AI로 전환하는 작업에 참여했습니다. 해보니 생각보다 복잡한 지점들이 있었습니다.
 
-이 질문을 받을 때마다 "그렇기도 하고 아니기도 하다"고 답합니다.
+## 기존 ML 챗봇이 나쁜 건 아니다
 
-KB국민은행에서 기존 ML 기반 챗봇을 생성형 AI 아키텍처로 전환하는 작업을
-직접 진행하면서 느낀 것들을 정리합니다.
+기존 구조는 이랬습니다.
 
-## 기존 ML 챗봇의 구조
+```text
+사용자 입력
+    ↓
+Intent 분류 모델 (머신러닝)
+    ↓
+의도 매핑 → 답변 템플릿 반환
+```
 
-기존 챗봇은 의도 분류(Intent Classification) + 개체 추출(NER) 방식이었습니다.
+단점이 있지만 장점도 분명합니다.
 
-사용자 입력 → 의도 분류 모델 → 의도 매핑 → 답변 템플릿 반환
+<Column fillWidth gap="4" marginTop="16">
+  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
+    <Column flex={1}><Text weight="bold">항목</Text></Column>
+    <Column flex={1}><Text weight="bold">ML 챗봇</Text></Column>
+    <Column flex={1}><Text weight="bold">LLM 챗봇</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>응답 예측 가능성</Text></Column>
+    <Column flex={1}><Text>높음 — 같은 입력이면 항상 같은 답</Text></Column>
+    <Column flex={1}><Text>낮음 — 매번 다를 수 있음</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>응답 속도</Text></Column>
+    <Column flex={1}><Text>빠름</Text></Column>
+    <Column flex={1}><Text>느림 (스트리밍 필요)</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={1}><Text>비용</Text></Column>
+    <Column flex={1}><Text>낮음</Text></Column>
+    <Column flex={1}><Text>높음</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" radius="m-bottom">
+    <Column flex={1}><Text>처음 본 질문 처리</Text></Column>
+    <Column flex={1}><Text>못함 — "이해하지 못했습니다"</Text></Column>
+    <Column flex={1}><Text>자연스럽게 처리</Text></Column>
+  </Row>
+</Column>
 
+ML 챗봇의 가장 큰 문제는 학습 데이터에 없는 표현이 들어오면 무조건 실패한다는 점입니다. "적금 해지하려고요"와 "적금 깨고 싶은데요"를 다른 의도로 분류하는 일이 생깁니다.
 
-장점이 뚜렷합니다.
-- 예측 가능하다 — 같은 입력에 같은 답이 나온다
-- 빠르다 — 추론 시간이 짧다
-- 통제하기 쉽다 — 답변이 템플릿 범위를 벗어나지 않는다
-
-## LLM으로 전환할 때 생기는 문제들
+## 전환하면서 실제로 막혔던 것들
 
 ### 1. 할루시네이션
 
-LLM은 모르는 것을 지어냅니다.
-금융 도메인에서 틀린 정보를 자신 있게 말하면 심각한 문제가 됩니다.
+LLM은 모르는 걸 지어냅니다. 금융 도메인에서 틀린 정보를 자신 있게 말하면 심각합니다. "해지 수수료가 없습니다"라고 잘못 답하면 고객 민원이 됩니다.
 
-RAG로 어느 정도 해결되지만, 완벽하지 않습니다.
-시스템 프롬프트에 "모르면 모른다고 말하라"를 명시하고,
-검색 유사도 임계값 이하면 답변 자체를 막는 방식으로 보완했습니다.
+RAG로 어느 정도 해결되지만 완전하지 않습니다. 검색 유사도가 낮으면 답변 자체를 막는 임계값 처리가 필요했습니다.
 
-### 2. 일관성 없는 답변
+```python
+# 유사도 임계값 이하면 LLM에 넘기지 않음
+SIMILARITY_THRESHOLD = 0.45
 
-같은 질문에 매번 다른 표현으로 답합니다.
-temperature를 낮추면 줄어들지만 완전히 없앨 수는 없습니다.
-품질 모니터링 체계를 새로 만들어야 했습니다.
+results = vectordb.similarity_search_with_score(query, k=4)
+relevant = [doc for doc, score in results if score > SIMILARITY_THRESHOLD]
+
+if not relevant:
+    return "죄송합니다, 해당 내용은 담당 직원에게 문의해 주세요."
+```
+
+### 2. 프롬프트가 코드다
+
+처음엔 단순하게 시작했습니다.
+
+```
+당신은 KB국민은행 금융 상담 AI입니다.
+```
+
+실제로 운영해보니 엣지 케이스가 계속 나왔고, 프롬프트가 점점 길어졌습니다.
+
+- "모르면 지어내지 말 것"
+- "타 금융사 상품은 비교하거나 추천하지 말 것"
+- "법적 책임이 따르는 답변은 전문가 상담으로 안내할 것"
+
+프롬프트는 코드처럼 버전 관리해야 합니다. 언제 어떤 이유로 바꿨는지 기록해두지 않으면 나중에 원인 파악이 안 됩니다.
 
 ### 3. 속도
 
-ML 모델 추론은 수십 ms지만 LLM은 수백 ms~수 초입니다.
-스트리밍 응답으로 체감 속도를 개선했지만,
-첫 토큰까지의 시간(TTFT)은 여전히 신경 써야 합니다.
+ML 모델 추론은 수십 ms인데 LLM은 수 초입니다. 스트리밍으로 체감 속도를 줄이는 게 필수였습니다. 실제로 타이핑되는 것처럼 보이면 사람들이 기다리는 걸 훨씬 덜 불편해합니다.
 
-### 4. 비용
+## 그래서 바꿀 가치가 있었나
 
-추론 비용이 기존 ML보다 훨씬 높습니다.
-캐싱 전략(자주 나오는 질문은 결과 캐시)을 적용해 비용을 줄였습니다.
+예, 있었습니다.
 
-## 그래서 전환할 가치가 있나요?
+ML 챗봇이 "이해하지 못했습니다"로 실패하던 케이스들을 LLM이 자연스럽게 처리합니다. "적금 깨고 싶은데요"도, "카드 한도 좀 늘려줄 수 있어요?"도 바로 이해합니다.
 
-의도 분류 기반 챗봇은 커버하지 못하는 케이스가 항상 존재합니다.
-학습 데이터에 없는 질문은 "죄송합니다, 이해하지 못했습니다"로 끝납니다.
-
-LLM 기반 챗봇은 이 케이스를 자연스럽게 처리합니다.
-한 번도 학습하지 않은 표현도 이해하고, 맥락을 이어서 대화합니다.
-
-결국 트레이드오프입니다.
-예측 가능성과 비용이 중요하면 ML,
-자연스러운 대화와 커버리지가 중요하면 LLM입니다.
-두 가지를 적절히 섞는 하이브리드 방식도 고려해볼 만합니다.
+대신 예측 가능성과 비용 면에서는 여전히 ML이 낫습니다. 두 방식을 상황에 맞게 섞는 하이브리드 구조가 현실적인 선택입니다.

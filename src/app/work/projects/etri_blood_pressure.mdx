@@ -1,65 +1,71 @@
 ---
 title: "PPG 기반 딥러닝 혈압 추정 모델"
 publishedAt: "2022-08-01"
-summary: "ETRI 인턴십 과제. MIMIC-III 대규모 의료 데이터셋으로 PPG 신호의 파형 형태와 Time-Domain 특성을 결합한 3-Branch CNN-LSTM 모델 개발. MAE 8.924 mmHg 달성."
+summary: "ETRI 인턴십. MIMIC-III 10만 건 데이터로 3-Branch CNN-LSTM 구조를 설계해 MAE 8.924 mmHg 달성."
 images:
   - "/projects/etri-intern/ppg-research.png"
 tag: "Medical AI"
 ---
 
-## 연구 배경
+## 배경
 
-ETRI 대경권연구센터 의료IT융합연구실 인턴십(2022.07–08) 과제입니다.
+ETRI(한국전자통신연구원) 대경권연구센터 의료IT융합연구실에서 두 달 인턴십을 했습니다. 2022년 7월부터 8월까지.
 
-혈압은 건강 상태를 판단하는 중요한 지표이지만,
-기존 커프 방식은 웨어러블 환경에서 사용하기 불편합니다.
-PPG(광용적맥파)는 손가락 센서로 비침습적으로 측정할 수 있어
-연속 혈압 모니터링에 적합합니다.
+맡은 과제는 PPG 신호로 혈압을 추정하는 딥러닝 모델 개발이었습니다. 커프 없이 손목 센서만으로 혈압을 재는 게 목표였습니다.
 
 ## 데이터
 
-Beth Israel Deaconess Medical Center 중환자실 데이터인
-**MIMIC-III** 공개 데이터셋을 사용했습니다.
-약 1,600명 환자의 데이터에서 8초 이상 데이터를 최대 100개까지 추출하고,
-Peak noise, Flat line을 제거하는 전처리 후
-최종 **101,087개**의 8초 길이 PPG 데이터를 학습에 사용했습니다.
+공개 의료 데이터셋인 MIMIC-III를 사용했습니다. 중환자실 환자 1,600명의 생체신호 데이터입니다.
 
-## 모델 구조: 3-Branch CNN-LSTM
+8초 이상 연속된 구간을 뽑고, Peak noise랑 Flat line(신호가 평평하게 죽어있는 구간)을 제거하는 전처리를 거쳐서 최종 **101,087개** 샘플을 만들었습니다.
 
-기존 Sequential 구조에서 벗어나 3개의 Branch를 병렬 처리하는 구조를 설계했습니다.
+## 모델 구조
 
-**Branch 1 — General CNN-LSTM**
-PPG 신호 waveform에서 형태적 특징을 학습합니다.
-3개의 Convolution Layer + 1개의 LSTM Layer로 구성됩니다.
+기존 연구들은 대부분 PPG 파형 자체만 Sequential하게 넣는 방식이었습니다. 근데 PPG에서 뽑을 수 있는 정보가 두 종류라는 걸 파악했습니다.
 
-**Branch 2 — Wide CNN-LSTM**
-Branch 1과 유사하나 더 넓은 수용 영역으로 거시적 추세를 포착합니다.
+하나는 **파형의 형태** — 수축기 피크 높이, 이완기 트로프 위치 같은 것들.
 
-**Branch 3 — Time-Domain Attribute**
-BPM, IBI(맥박 간격), Amplitude 등 시간 영역 특성을 추출해 입력합니다.
-Heartpy 라이브러리 활용.
+다른 하나는 **시간 영역 특성** — BPM, 맥박 간격(IBI), 상승 시간 같은 통계값들.
 
-세 Branch의 출력을 통합하여 수축기 혈압(SBP)을 예측합니다.
-과적합 방지를 위해 30% Dropout 적용.
+이 두 가지를 병렬로 처리하는 3-Branch 구조를 설계했습니다.
 
-## 성능 결과
+```text
+[PPG 파형] → Branch 1 (General CNN-LSTM) ─┐
+[PPG 파형] → Branch 2 (Wide CNN-LSTM)    ─┼→ Dense → SBP 예측
+[시간 특성] → Branch 3 (Time-domain DNN) ─┘
+```
 
-| 구성 | MAE (mmHg) |
-|------|-----------|
-| General CNN-LSTM만 사용 | 9.9805 |
-| + Wide CNN-LSTM | 9.4603 |
-| **+ Time-Domain Attribute (전체)** | **8.9248** |
+Branch 1, 2는 수용 영역 크기만 다르게 해서 파형의 로컬/글로벌 특성을 각각 포착하고, Branch 3은 Heartpy 라이브러리로 추출한 시간 영역 특성을 받습니다.
 
-General CNN-LSTM 단독 대비 약 **12% 성능 향상**.
+## 성능 비교
+
+<Column fillWidth gap="4" marginTop="16">
+  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
+    <Column flex={2}><Text weight="bold">모델 구성</Text></Column>
+    <Column flex={1}><Text weight="bold">MAE (mmHg)</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>General CNN-LSTM만 사용</Text></Column>
+    <Column flex={1}><Text>9.9805</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
+    <Column flex={2}><Text>+ Wide CNN-LSTM 추가</Text></Column>
+    <Column flex={1}><Text>9.4603</Text></Column>
+  </Row>
+  <Row fillWidth padding="12" radius="m-bottom">
+    <Column flex={2}><Text>전체 3-Branch (최종)</Text></Column>
+    <Column flex={1}><Text>8.9248 ↓ 12% 향상</Text></Column>
+  </Row>
+</Column>
+
+시간 영역 Branch가 추가됐을 때 개선 폭이 제일 컸습니다. 파형 형태만으로는 놓치는 혈압 정보가 시간 영역에 담겨 있다는 의미입니다.
 
 ## 기술 스택
 
 `Python` `TensorFlow` `Keras` `LSTM` `CNN` `MIMIC-III` `Heartpy` `NumPy` `SciPy`
 
-## 한계와 향후 연구
+## 느낀 점
 
-10,000개 테스트 데이터에서 MAE ±8.924 mmHg를 달성했지만,
-더 많은 데이터로 학습하면 의료기기 수준으로 오차를 줄일 수 있을 것으로 분석합니다.
-도메인 적응 문제 — 수집 환경이 다른 데이터에서 성능이 떨어지는 현상도 향후 해결 과제입니다.
+두 달 짧은 기간이었는데, 입력 데이터를 어떻게 쪼개서 넣느냐에 따라 성능이 달라진다는 걸 처음 제대로 경험했습니다. "모델 구조보다 데이터 이해가 먼저다"는 걸 몸으로 배운 프로젝트입니다.
 
-한국통신학회 학술대회 논문으로 발표했습니다.
+한국통신학회 학술대회에 논문으로 발표했습니다.

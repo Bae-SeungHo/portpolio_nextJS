@@ -34,17 +34,37 @@ export default function ContactChallenge() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    await supabase.from("visitor_messages").insert({
-      visitor_type: visitorType,
-      interest,
-      message: message.trim(),
-      email: email.trim() || null,
+const handleSubmit = async () => {
+  setLoading(true);
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorType, interest, message, email }),
     });
+    const data = await res.json();
+    if (data.success) {
+      setStep("done");
+    } else {
+      alert("오류가 발생했어요. 잠시 후 다시 시도해주세요.");
+    }
+  } catch {
+    alert("네트워크 오류가 발생했어요.");
+  } finally {
     setLoading(false);
-    setStep("done");
-  };
+  }
+};
+  // const handleSubmit = async () => {
+  //   setLoading(true);
+  //   await supabase.from("visitor_messages").insert({
+  //     visitor_type: visitorType,
+  //     interest,
+  //     message: message.trim(),
+  //     email: email.trim() || null,
+  //   });
+  //   setLoading(false);
+  //   setStep("done");
+  // };
 
   const progressPct = step === "type" ? 33 : step === "interest" ? 66 : step === "message" ? 90 : 100;
 
