@@ -33,6 +33,8 @@ import { ShareSection } from "@/components/blog/ShareSection";
     // const { getPosts } = await import("@/app/utils/utils");
     const posts = getPosts(["src", "app", "blog", "posts"]);
     // const posts = getPosts(["src", "app", "[locale]", "blog", "posts"]);
+    // console.log("found post:", posts);
+    // console.log()
 
     const locales = ["ko", "en"];
 

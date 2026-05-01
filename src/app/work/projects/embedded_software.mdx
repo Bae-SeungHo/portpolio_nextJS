@@ -1,67 +1,58 @@
 ---
 title: "딥러닝 기반 양치습관 분석 시스템"
 publishedAt: "2021-11-01"
-summary: "4인 팀 협업으로 임베디드 보드 + LSTM 딥러닝으로 양치 방향과 미흡 부위를 실시간 분석. 산업통상자원부 아크데이타 대표이사상 수상."
+summary: "4인 팀 협업. 임베디드 보드 + LSTM으로 양치 방향과 미흡 부위를 실시간 분석. 산업통상자원부 아크데이타 대표이사상 수상."
 images:
   - "/projects/embedded-sw/activity.jpg"
 tag: "Computer Vision"
 ---
 
-## 아이디어
+고가의 스마트 칫솔 없이 카메라 하나로 양치 습관을 분석할 수 있으면 어떨까 — 그게 시작이었습니다.
 
-고가의 스마트 칫솔 말고, 카메라 하나로 양치 습관을 분석할 수 있으면 어떨까. 그게 시작이었습니다.
-
-임베디드 보드에 달린 카메라로 사용자가 양치하는 모습을 찍고, 딥러닝 모델이 칫솔 방향과 미흡 부위를 분석해서 웹으로 보여주는 시스템입니다.
+임베디드 보드 카메라로 양치하는 모습을 찍고, 딥러닝이 칫솔 방향과 미흡 부위를 분석해서 웹으로 보여주는 시스템입니다. 4명이서 만들었는데, 역할을 처음부터 명확하게 나눈 게 잘 한 결정이었습니다.
 
 ## 팀 역할 분담
 
-4명이 역할을 명확하게 나눴습니다.
-
-<Column fillWidth gap="4" marginTop="16">
-  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
-    <Column flex={1}><Text weight="bold">영역</Text></Column>
-    <Column flex={2}><Text weight="bold">담당</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>딥러닝 모델 + TCP 통신</Text></Column>
-    <Column flex={2}><Text>배승호 (담당)</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>임베디드 보드 구현</Text></Column>
-    <Column flex={2}><Text>팀원 A</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>웹 서비스 + 시각화</Text></Column>
-    <Column flex={2}><Text>팀원 B</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" radius="m-bottom">
-    <Column flex={1}><Text>데이터 수집·분석</Text></Column>
-    <Column flex={2}><Text>팀원 C</Text></Column>
-  </Row>
-</Column>
+<Table
+  data={{
+    headers: [
+      { content: "역할", key: "role" },
+      { content: "담당", key: "person" }
+    ],
+    rows: [
+      ["딥러닝 모델 개발 + TCP 통신", "배승호 (담당)"],
+      ["임베디드 보드 구현", "팀원 A"],
+      ["웹 서비스 + 시각화", "팀원 B"],
+      ["데이터 수집·분석", "팀원 C"]
+    ]
+  }}
+/>
 
 ## 시스템 흐름
 
 ```text
 Raspberry Pi (카메라)
-    ↓ TCP 소켓 전송
+    ↓ TCP 소켓
 Python 서버 (MediaPipe 전처리 + LSTM 추론)
-    ↓ 분석 결과
-GCP 클라우드 스토리지
+    ↓
+GCP 클라우드
     ↓
 웹 대시보드 (양치 점수 + 미흡 부위 히트맵)
 ```
 
-임베디드 보드에서 직접 추론하지 않고 서버로 영상을 넘기는 방식을 선택했습니다. Raspberry Pi 메모리로는 OpenCV + 딥러닝 모델을 동시에 올리기 어려웠기 때문입니다.
+<Feedback
+  icon
+  variant="info"
+  title="왜 서버로 넘겼나"
+  description="Raspberry Pi 메모리로는 OpenCV + 딥러닝 모델을 동시에 올리기 어려웠습니다. 영상 캡처만 보드에서 하고 추론은 서버에서 처리하는 방식으로 해결했습니다."
+/>
 
 ## 딥러닝 모델
 
-MediaPipe로 손(21개)과 얼굴(15개) 총 36개 Landmark 좌표를 추출합니다. 이때 현재 프레임과 다음 프레임의 차이값을 함께 수집합니다. 절대 위치가 아닌 움직임 패턴을 학습하기 위해서입니다.
-
-60프레임(약 1초) 단위 Sequential 데이터를 LSTM에 넣으면 양치 방향(상하/좌우/원형)을 분류합니다. 왼손잡이·오른손잡이를 구분해 각각 다른 모델로 추론합니다.
+MediaPipe로 손(21개)과 얼굴(15개) 총 **36개 Landmark 좌표**를 추출합니다. 이때 현재 프레임과 다음 프레임의 차이값을 함께 수집합니다 — 절대 위치가 아닌 움직임 패턴을 학습하기 위해서입니다.
 
 ```python
-# LSTM 모델 구조
+# 60프레임(약 1초) Sequential 데이터를 LSTM에 입력
 model = Sequential([
     LSTM(64, return_sequences=False, input_shape=(60, 36*3)),
     Dense(32, activation='relu'),
@@ -70,39 +61,36 @@ model = Sequential([
 ])
 ```
 
+왼손잡이·오른손잡이를 구분해 각각 다른 모델로 추론합니다.
+
 ## 기술 스택
 
-<Column fillWidth gap="4" marginTop="16">
-  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
-    <Column flex={1}><Text weight="bold">분야</Text></Column>
-    <Column flex={2}><Text weight="bold">기술</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>AI 모델</Text></Column>
-    <Column flex={2}><Text>TensorFlow / LSTM / MediaPipe</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>임베디드</Text></Column>
-    <Column flex={2}><Text>Raspberry Pi / OpenCV</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>통신</Text></Column>
-    <Column flex={2}><Text>TCP Socket (Python)</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" radius="m-bottom">
-    <Column flex={1}><Text>인프라</Text></Column>
-    <Column flex={2}><Text>GCP / HTML5 Web</Text></Column>
-  </Row>
-</Column>
+<Table
+  data={{
+    headers: [
+      { content: "분야", key: "area" },
+      { content: "기술", key: "tech" }
+    ],
+    rows: [
+      ["AI 모델", "TensorFlow / LSTM / MediaPipe"],
+      ["임베디드", "Raspberry Pi / OpenCV"],
+      ["통신", "TCP Socket (Python)"],
+      ["인프라", "GCP / HTML5 Web"]
+    ]
+  }}
+/>
 
 ## 수상
 
-산업통상자원부 주관 제19회 임베디드SW 경진대회 **아크데이타 대표이사상** 수상
+<Grid fillWidth columns="2" gap="12" marginTop="8" marginBottom="16">
+  <Column border="neutral-alpha-medium" padding="16" radius="m" gap="4">
+    <Text variant="label-strong-s">🏆 아크데이타 대표이사상</Text>
+    <Text variant="body-default-s" onBackground="neutral-weak">산업통상자원부 주관 제19회 임베디드SW 경진대회</Text>
+  </Column>
+  <Column border="neutral-alpha-medium" padding="16" radius="m" gap="4">
+    <Text variant="label-strong-s">🏆 우수논문발표상</Text>
+    <Text variant="body-default-s" onBackground="neutral-weak">대한임베디드공학회 추계학술대회</Text>
+  </Column>
+</Grid>
 
-대한임베디드공학회 추계학술대회 **우수논문발표상** 수상
-
-고가 스마트 칫솔 대비 저렴하게 구현할 수 있다는 점이 높게 평가됐습니다.
-
-## 느낀 점
-
-역할을 명확하게 나눈 협업이 얼마나 중요한지 배웠습니다. 제가 모델을 짜면 팀원이 보드에서 데이터를 흘려보내고, 또 다른 팀원이 웹에서 결과를 받아 시각화하는 — 인터페이스만 잘 정의되면 병렬로 개발할 수 있었습니다. 혼자 다 하는 것보다 훨씬 빨랐습니다.
+역할을 명확하게 나누고 인터페이스만 잘 정의하면 4명이 병렬로 개발할 수 있다는 걸 이 프로젝트에서 배웠습니다.

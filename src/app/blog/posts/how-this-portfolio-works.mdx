@@ -1,61 +1,45 @@
 ---
-title: "무료 도구만으로 AI 챗봇이 달린 포트폴리오를 만들었습니다"
-publishedAt: "2025-04-10"
+title: "이 포트폴리오를 어떻게 만들었나요?"
+publishedAt: "2026-04-10"
 summary: "Next.js, Vercel, Groq API, Supabase로 RAG 챗봇이 내장된 포트폴리오를 월 운영비 0원으로 만든 과정."
+image: "/blogs/vercel.png"
 ---
 
-포트폴리오를 새로 만들면서 딱 한 가지가 욕심났습니다.
+포트폴리오 다시 만들면서 욕심 하나가 생겼습니다. 방문자가 저에 대해 직접 물어볼 수 있으면 어떨까 싶었습니다.
 
-방문자가 저에 대해 직접 물어볼 수 있으면 어떨까?
+이력서랑 포트폴리오를 아무리 잘 써도 원하는 정보를 찾으려면 페이지를 뒤적여야 합니다. 그 대신 챗봇에 바로 물어볼 수 있으면 낫겠다 싶어서 RAG 시스템을 직접 붙였습니다.
 
-이력서랑 포트폴리오를 아무리 잘 써도, 채용담당자가 원하는 정보를 찾으려면 페이지를 뒤적여야 합니다. 그게 불편해 보였습니다. 그래서 RAG 챗봇을 포트폴리오 안에 넣기로 했습니다.
+## 기술 스택
 
-## 기술 선택
+가장 고민됐던 건 LLM API 비용이었습니다. OpenAI를 쓰면 방문자마다 비용이 발생하는데, 개인 포트폴리오에 매달 API 비용을 내는 건 별로였습니다. 그러다 **Groq**을 발견했습니다. Llama 3.3 70B를 무료로 제공하고, 응답 속도는 GPT-4보다 빠릅니다.
 
-가장 고민됐던 건 LLM API 비용이었습니다. OpenAI를 쓰면 방문자마다 비용이 발생하는데, 개인 포트폴리오에 매달 API 비용을 내는 건 부담입니다.
+<Table
+  data={{
+    headers: [
+      { content: "역할", key: "role" },
+      { content: "도구", key: "tool" },
+      { content: "비용", key: "cost" }
+    ],
+    rows: [
+      ["프레임워크", "Next.js 14 + Once UI", "무료"],
+      ["배포", "Vercel", "무료"],
+      ["LLM", "Groq — Llama 3.3 70B", "무료"],
+      ["벡터 DB", "Supabase pgvector", "무료"],
+      ["임베딩", "@xenova/transformers", "무료"]
+    ]
+  }}
+/>
 
-Groq을 발견했습니다. Llama 3.3 70B를 무료로 제공하고, 응답 속도는 GPT-4보다 빠릅니다. 분당 30 요청, 일 14,400 토큰 — 포트폴리오 트래픽에는 충분합니다.
+<Feedback
+  icon
+  variant="success"
+  title="월 운영비: ₩0"
+  description="포트폴리오 규모에서 모든 서비스가 무료 티어로 충분합니다."
+/>
 
-<Column fillWidth gap="4" marginTop="16">
-  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
-    <Column flex={1}><Text weight="bold">역할</Text></Column>
-    <Column flex={2}><Text weight="bold">도구</Text></Column>
-    <Column flex={1}><Text weight="bold">비용</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>프레임워크</Text></Column>
-    <Column flex={2}><Text>Next.js 14 + Once UI</Text></Column>
-    <Column flex={1}><Text>무료</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>배포</Text></Column>
-    <Column flex={2}><Text>Vercel</Text></Column>
-    <Column flex={1}><Text>무료</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>LLM</Text></Column>
-    <Column flex={2}><Text>Groq — Llama 3.3 70B</Text></Column>
-    <Column flex={1}><Text>무료</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>벡터 DB</Text></Column>
-    <Column flex={2}><Text>Supabase pgvector</Text></Column>
-    <Column flex={1}><Text>무료</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" radius="m-bottom">
-    <Column flex={1}><Text>임베딩</Text></Column>
-    <Column flex={2}><Text>@xenova/transformers</Text></Column>
-    <Column flex={1}><Text>무료</Text></Column>
-  </Row>
-</Column>
+## RAG 파이프라인
 
-월 운영비 합계: **₩0**
-
-## RAG가 필요했던 이유
-
-단순히 "당신은 배승호의 어시스턴트입니다"라고만 프롬프트를 쓰면 AI가 모르는 내용을 지어냅니다. 이력서에 없는 경력을 만들어낸다거나, 수상 내역을 틀리게 말한다거나.
-
-RAG는 질문이 들어오면 먼저 지식베이스에서 관련 내용을 검색해서 AI에게 넘겨줍니다. AI가 직접 기억하는 게 아니라, 검색된 정보를 바탕으로 답하는 구조입니다.
+단순히 프롬프트에 "당신은 배승호의 어시스턴트입니다"라고만 쓰면 AI가 없는 내용을 지어냅니다. RAG는 질문이 들어오면 먼저 지식베이스에서 관련 내용을 검색해서 AI에게 넘겨줍니다.
 
 ```text
 방문자 질문
@@ -68,13 +52,29 @@ Supabase pgvector 코사인 유사도 검색
     ↓
 컨텍스트 + 질문 → Groq API (Llama 3.3 70B)
     ↓
-스트리밍 답변 생성
+스트리밍 답변
 ```
 
-실제로 "Kubernetes 운영 경험이 어떻게 되나요?" 같은 구체적인 질문에도 정확하게 답합니다.
+```typescript
+// SSE 스트리밍 응답
+const stream = await groq.chat.completions.create({
+  model: "llama-3.3-70b-versatile",
+  messages: [{ role: "system", content: systemPrompt }, ...messages],
+  stream: true,
+  temperature: 0.2,
+});
 
-## 이 포트폴리오 자체가 하나의 프로젝트
+for await (const chunk of stream) {
+  const text = chunk.choices[0]?.delta?.content || "";
+  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+}
+```
 
-단순히 이력서의 웹 버전을 만들고 싶지 않았습니다. 제가 어떤 걸 할 수 있는지는 포트폴리오를 보면 알 수 있고, 어떻게 생각하는지는 블로그를 보면 알 수 있고, 저에 대해 궁금한 건 챗봇에게 바로 물어볼 수 있는 — 그런 포트폴리오를 만들고 싶었습니다.
+이 포트폴리오 자체가 하나의 프로젝트입니다. 단순한 이력서의 웹 버전이 아니라, 직접 만든 AI 시스템이 붙어있는 결과물로 만들고 싶었습니다.
 
 우하단 💬 버튼을 눌러보세요.
+
+<Row gap="8" marginTop="16">
+  <Button href="/work" variant="secondary" label="프로젝트 더 보기" suffixIcon="chevronRight" />
+  <Button href="https://github.com/Bae-SeungHo" variant="tertiary" label="GitHub" prefixIcon="github" />
+</Row>

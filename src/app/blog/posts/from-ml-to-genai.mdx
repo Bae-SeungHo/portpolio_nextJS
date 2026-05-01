@@ -1,98 +1,56 @@
 ---
 title: "ML 챗봇을 생성형 AI로 바꾸면서 실제로 겪은 것들"
-publishedAt: "2025-03-01"
-summary: "룰 기반 ML 챗봇을 LLM·RAG로 전환하면서 마주친 실제 문제들. 잘 된 것, 예상보다 어려웠던 것."
+publishedAt: "2026-03-15"
+tag: "Insights"
+image: "/blogs/ml-to-genai.png"
+summary: "룰 기반 ML 챗봇을 LLM·RAG로 전환하면서 마주친 실제 문제들."
 ---
 
-KB국민은행에서 기존 ML 기반 챗봇을 생성형 AI로 전환하는 작업에 참여했습니다. 해보니 생각보다 복잡한 지점들이 있었습니다.
+KB국민은행에서 기존 ML 기반 챗봇을 생성형 AI로 전환하는 작업을 해봤습니다. 생각보다 복잡한 지점들이 있었습니다.
 
-## 기존 ML 챗봇이 나쁜 건 아니다
-
-기존 구조는 이랬습니다.
+## 기존 ML 챗봇도 나쁜 건 아니다
 
 ```text
-사용자 입력
-    ↓
-Intent 분류 모델 (머신러닝)
-    ↓
-의도 매핑 → 답변 템플릿 반환
+사용자 입력 → Intent 분류 모델 → 의도 매핑 → 답변 템플릿 반환
 ```
 
-단점이 있지만 장점도 분명합니다.
-
-<Column fillWidth gap="4" marginTop="16">
-  <Row fillWidth padding="12" background="neutral-alpha-weak" radius="m-top">
-    <Column flex={1}><Text weight="bold">항목</Text></Column>
-    <Column flex={1}><Text weight="bold">ML 챗봇</Text></Column>
-    <Column flex={1}><Text weight="bold">LLM 챗봇</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>응답 예측 가능성</Text></Column>
-    <Column flex={1}><Text>높음 — 같은 입력이면 항상 같은 답</Text></Column>
-    <Column flex={1}><Text>낮음 — 매번 다를 수 있음</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>응답 속도</Text></Column>
-    <Column flex={1}><Text>빠름</Text></Column>
-    <Column flex={1}><Text>느림 (스트리밍 필요)</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" borderBottom="neutral-alpha-weak">
-    <Column flex={1}><Text>비용</Text></Column>
-    <Column flex={1}><Text>낮음</Text></Column>
-    <Column flex={1}><Text>높음</Text></Column>
-  </Row>
-  <Row fillWidth padding="12" radius="m-bottom">
-    <Column flex={1}><Text>처음 본 질문 처리</Text></Column>
-    <Column flex={1}><Text>못함 — "이해하지 못했습니다"</Text></Column>
-    <Column flex={1}><Text>자연스럽게 처리</Text></Column>
-  </Row>
-</Column>
+<Table
+  data={{
+    headers: [
+      { content: "항목", key: "item" },
+      { content: "ML 챗봇", key: "ml" },
+      { content: "LLM 챗봇", key: "llm" }
+    ],
+    rows: [
+      ["응답 예측 가능성", "높음 — 같은 입력이면 항상 같은 답", "낮음 — 매번 다를 수 있음"],
+      ["응답 속도", "빠름 (수십 ms)", "느림 (수 초, 스트리밍 필요)"],
+      ["운영 비용", "낮음", "높음"],
+      ["처음 본 질문", "실패 (미학습 의도)", "자연스럽게 처리"]
+    ]
+  }}
+/>
 
 ML 챗봇의 가장 큰 문제는 학습 데이터에 없는 표현이 들어오면 무조건 실패한다는 점입니다. "적금 해지하려고요"와 "적금 깨고 싶은데요"를 다른 의도로 분류하는 일이 생깁니다.
 
-## 전환하면서 실제로 막혔던 것들
+## 전환하면서 막혔던 것들
 
-### 1. 할루시네이션
-
-LLM은 모르는 걸 지어냅니다. 금융 도메인에서 틀린 정보를 자신 있게 말하면 심각합니다. "해지 수수료가 없습니다"라고 잘못 답하면 고객 민원이 됩니다.
-
-RAG로 어느 정도 해결되지만 완전하지 않습니다. 검색 유사도가 낮으면 답변 자체를 막는 임계값 처리가 필요했습니다.
-
-```python
-# 유사도 임계값 이하면 LLM에 넘기지 않음
-SIMILARITY_THRESHOLD = 0.45
-
-results = vectordb.similarity_search_with_score(query, k=4)
-relevant = [doc for doc, score in results if score > SIMILARITY_THRESHOLD]
-
-if not relevant:
-    return "죄송합니다, 해당 내용은 담당 직원에게 문의해 주세요."
-```
-
-### 2. 프롬프트가 코드다
-
-처음엔 단순하게 시작했습니다.
-
-```
-당신은 KB국민은행 금융 상담 AI입니다.
-```
-
-실제로 운영해보니 엣지 케이스가 계속 나왔고, 프롬프트가 점점 길어졌습니다.
-
-- "모르면 지어내지 말 것"
-- "타 금융사 상품은 비교하거나 추천하지 말 것"
-- "법적 책임이 따르는 답변은 전문가 상담으로 안내할 것"
-
-프롬프트는 코드처럼 버전 관리해야 합니다. 언제 어떤 이유로 바꿨는지 기록해두지 않으면 나중에 원인 파악이 안 됩니다.
-
-### 3. 속도
-
-ML 모델 추론은 수십 ms인데 LLM은 수 초입니다. 스트리밍으로 체감 속도를 줄이는 게 필수였습니다. 실제로 타이핑되는 것처럼 보이면 사람들이 기다리는 걸 훨씬 덜 불편해합니다.
+<AccordionGroup
+  items={[
+    {
+      title: "할루시네이션",
+      content: <Text variant="body-default-s" onBackground="neutral-weak">LLM은 모르는 걸 지어냅니다. 금융 도메인에서 틀린 정보를 자신 있게 말하면 고객 민원이 됩니다. 검색 유사도가 낮으면 답변 자체를 막는 임계값 처리가 필요했습니다. SIMILARITY_THRESHOLD = 0.45로 설정해서 임계값 이하면 LLM에 넘기지 않고 "담당 직원에게 문의해 주세요"로 돌렸습니다.</Text>
+    },
+    {
+      title: "프롬프트 관리",
+      content: <Text variant="body-default-s" onBackground="neutral-weak">처음엔 한 줄이었는데 6개월 운영하니 수십 줄이 됐습니다. "모르면 지어내지 말 것", "타 금융사 상품은 비교하거나 추천하지 말 것", "법적 책임이 따르는 답변은 전문 상담으로 안내할 것" — 엣지 케이스가 생길 때마다 규칙이 추가됐습니다. 변경 이유를 기록해두지 않으면 나중에 왜 이 규칙이 있는지 알 수가 없습니다.</Text>
+    },
+    {
+      title: "응답 속도",
+      content: <Text variant="body-default-s" onBackground="neutral-weak">ML 모델 추론은 수십 ms인데 LLM은 수 초입니다. 스트리밍으로 타이핑되는 것처럼 보이게 하면 체감이 많이 달라집니다. 실제 응답 시간은 같아도 사용자가 느끼는 건 전혀 다릅니다.</Text>
+    }
+  ]}
+/>
 
 ## 그래서 바꿀 가치가 있었나
 
-예, 있었습니다.
-
-ML 챗봇이 "이해하지 못했습니다"로 실패하던 케이스들을 LLM이 자연스럽게 처리합니다. "적금 깨고 싶은데요"도, "카드 한도 좀 늘려줄 수 있어요?"도 바로 이해합니다.
-
-대신 예측 가능성과 비용 면에서는 여전히 ML이 낫습니다. 두 방식을 상황에 맞게 섞는 하이브리드 구조가 현실적인 선택입니다.
+있었습니다. ML 챗봇이 "이해하지 못했습니다"로 실패하던 케이스들을 LLM이 자연스럽게 처리합니다. 대신 예측 가능성과 비용은 여전히 ML이 낫습니다. 두 방식을 상황에 맞게 섞는 하이브리드 구조가 현실적입니다.

@@ -54,10 +54,10 @@ Branch 1과 2는 CNN-LSTM으로 파형 형태를 처리하고
 Branch 3은 DNN으로 Time-Domain 특성을 처리합니다.
 세 Branch의 출력을 합쳐서 최종 SBP를 예측합니다.
 
-```
+```text
 [PPG 신호] → Branch 1 (General CNN-LSTM) →┐
-[PPG 신호] → Branch 2 (Wide CNN-LSTM)   →├→ Dense → SBP
-[TD 특성] → Branch 3 (Time-domain DNN) →┘
+[PPG 신호] → Branch 2 (Wide CNN-LSTM)    →├→ Dense → SBP
+[TD 특성] → Branch 3 (Time-domain DNN)   →┘
 
 ```
 

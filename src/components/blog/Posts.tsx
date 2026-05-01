@@ -18,8 +18,20 @@ export function Posts({
   direction,
 }: PostsProps) {
   let allBlogs = getPosts(["src", "app", "blog", "posts"]);
-
+  // console.log("exclude:", exclude);
+  // console.log("exclude isArray:", Array.isArray(exclude));
+  // console.log(
+  //   getPosts(["src", "app", "blog", "posts"]).map(post => ({
+  //     slug: post?.slug,
+  //     metadata: post?.metadata,
+  //   }))
+  // );
+  // console.log("allBlogs:", allBlogs);
   // Exclude by slug (exact match)
+  // allBlogs = allBlogs.filter(
+  //   (post): post is NonNullable<typeof post> =>
+  //     !!post && typeof post.slug === "string"
+  // );
   if (exclude.length) {
     allBlogs = allBlogs.filter((post) => !exclude.includes(post.slug));
   }
