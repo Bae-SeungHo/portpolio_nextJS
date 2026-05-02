@@ -151,7 +151,7 @@ export default function About() {
                 }}
               >
                 <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
+                <Row paddingX="8">Send an Email</Row>
                 <IconButton
                   href={about.calendar.link}
                   data-border="rounded"
@@ -357,7 +357,7 @@ export default function About() {
           <Column gap="l" paddingY="xl">
             <Heading as="h2" variant="display-strong-s">Paper & Research</Heading>
             <Text variant="body-default-s" onBackground="neutral-weak">
-              영남대학교 MCL 연구실 및 ETRI 인턴십 기간 발표한 논문들입니다.
+              연구실 및 회사 생활 중 발표한 논문들입니다.
             </Text>
             <PublicationList />
           </Column>

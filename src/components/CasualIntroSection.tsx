@@ -5,7 +5,7 @@ const CARDS = [
     emoji: "🏦",
     label: "빠르고 풍부한 실무 경험",
     content:
-      "학부 과정에서도 2년간 연구실과 외부 근로기관에서 근무하고,\n25살에 AI 스타트업과 ETRI에서 인턴을 마친 뒤,\n26살부터 현재까지 KB국민은행에서 AI 서비스를 개발·운영하고 있어요.",
+      "학부 과정 2년간 연구실과 외부 근로기관에서 근무하고\n25살에 AI 스타트업과 ETRI에서 인턴을 마친 뒤\n26살부터 현재까지 KB국민은행에서 AI 서비스를 개발·운영하고 있어요.",
     accent: "#378ADD",
     accentBg: "#E6F1FB",
   },
@@ -13,7 +13,7 @@ const CARDS = [
     emoji: "🤖",
     label: "대규모 고객 핸들링 경험",
     content:
-      "수백만 고객들이 사용하는 여러 봇 시스템의 데이터를 분석하고 운영하였고,\n기존 Rule-based ML 챗봇을 Generative AI와 RAG 아키텍처로 고도화했어요.",
+      "수백만 고객들이 사용하는 봇 시스템들을 운영하며 사용자 데이터를 분석하였고\n기존 Rule-based ML 챗봇을 Generative AI와 RAG 아키텍처로 고도화했어요.",
     accent: "#7F77DD",
     accentBg: "#EEEDFE",
   },
