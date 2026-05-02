@@ -17,6 +17,16 @@ interface Publication {
 
 const PUBLICATIONS: Publication[] = [
   {
+    title: "STM 이용 확대를 위한 신기술 활용 방안",
+    titleEn: "New Technology Utilization to Expand the Use of STM",
+    venue: "한국지능정보시스템학회",
+    year: "2023",
+    authors: "배승호, KB국민은행",
+    abstract: "연령별 맞춤형 메인 페이지 구성과 챗봇 내재화를 통해 접근성을 높이고, 시선 추적 기술 기반의 숄더서핑 방지 및 안면 유사도 보조 시스템을 도입하여 보안 불안감을 해소함으로써 이용 만족도를 향상",
+    keywords: ["Vision", "STM", "Peeker Detection"],
+    paperImages: [],
+  },
+  {
     title: "PPG의 형태 및 Time-Domain Attributes를 활용한 딥러닝 기반 혈압 추정 연구",
     titleEn: "Deep learning-based blood pressure estimation using Morphology of PPG signal",
     venue: "한국통신학회",

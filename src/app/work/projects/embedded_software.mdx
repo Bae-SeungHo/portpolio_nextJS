@@ -4,12 +4,25 @@ publishedAt: "2021-11-01"
 summary: "4인 팀 협업. 임베디드 보드 + LSTM으로 양치 방향과 미흡 부위를 실시간 분석. 산업통상자원부 아크데이타 대표이사상 수상."
 images:
   - "/projects/embedded-sw/activity.jpg"
+  - "/projects/embedded-sw/movie.mp4"
 tag: "Computer Vision"
 ---
 
-고가의 스마트 칫솔 없이 카메라 하나로 양치 습관을 분석할 수 있으면 어떨까 — 그게 시작이었습니다.
+<Feedback
+  icon
+  variant="success"
+  title="1줄 요약"
+  description="Vision 기반으로 사용자의 양치 패턴을 수집하고 분석 결과를 시각화하여 제공하는 4인 협업 임베디드 프로젝트"
+/>
 
-임베디드 보드 카메라로 양치하는 모습을 찍고, 딥러닝이 칫솔 방향과 미흡 부위를 분석해서 웹으로 보여주는 시스템입니다. 4명이서 만들었는데, 역할을 처음부터 명확하게 나눈 게 잘 한 결정이었습니다.
+## 프로젝트 개요
+
+고가의 스마트 칫솔 없이 카메라 하나로 양치 습관을 분석할 수 있으면 어떨까?
+라는 아이디어로 시작하게 된 "양치의 정석" 프로젝트입니다.
+
+임베디드 보드의 Raspberry 카메라로 양치하는 손 움직임 영상을 수집하고,
+LSTM 딥러닝 모델을 통해 칫솔 방향과 미흡 부위를 분석해서 웹으로 보여주는 시스템입니다.
+연구실 동료 네명과 함께 만들었는데, 역할을 처음부터 잘 배분하여 원활하게 협업할 수 있었습니다.
 
 ## 팀 역할 분담
 
@@ -37,19 +50,22 @@ Python 서버 (MediaPipe 전처리 + LSTM 추론)
     ↓
 GCP 클라우드
     ↓
-웹 대시보드 (양치 점수 + 미흡 부위 히트맵)
+웹 대시보드 (양치 점수 + 미흡 부위 시각화)
 ```
 
 <Feedback
   icon
   variant="info"
   title="왜 서버로 넘겼나"
-  description="Raspberry Pi 메모리로는 OpenCV + 딥러닝 모델을 동시에 올리기 어려웠습니다. 영상 캡처만 보드에서 하고 추론은 서버에서 처리하는 방식으로 해결했습니다."
+  description="Raspberry Pi의 Edge Device로는 OpenCV + 딥러닝 모델을 동시에 올리기 어려웠습니다. 영상 캡처만 보드에서 하고 추론은 서버에서 처리하는 방식으로 해결했습니다."
 />
+
 
 ## 딥러닝 모델
 
-MediaPipe로 손(21개)과 얼굴(15개) 총 **36개 Landmark 좌표**를 추출합니다. 이때 현재 프레임과 다음 프레임의 차이값을 함께 수집합니다 — 절대 위치가 아닌 움직임 패턴을 학습하기 위해서입니다.
+MediaPipe로 손(21개)과 얼굴(15개) 총 **36개 Landmark 좌표**를 추출합니다.
+그리고 현재 프레임과 이전 프레임간의 Euclidean distance를 함께 수집합니다.
+영상에서의 절대 위치가 아닌 사용자의 움직임 패턴을 학습하기 위해서입니다.
 
 ```python
 # 60프레임(약 1초) Sequential 데이터를 LSTM에 입력
@@ -57,11 +73,15 @@ model = Sequential([
     LSTM(64, return_sequences=False, input_shape=(60, 36*3)),
     Dense(32, activation='relu'),
     Dropout(0.3),
+    # + Hidden Layers
     Dense(4, activation='softmax')  # 양치 방향 4클래스
 ])
 ```
 
-왼손잡이·오른손잡이를 구분해 각각 다른 모델로 추론합니다.
+왼손잡이,오른손잡이를 포함한 다양한 환경(밝기, 거리, 얼굴 방향) 에 대해 학습하고 파인튜닝을 진행하였습니다.
+
+![proposal](/projects/embedded-sw/proposal.png)
+
 
 ## 기술 스택
 
@@ -73,9 +93,9 @@ model = Sequential([
     ],
     rows: [
       ["AI 모델", "TensorFlow / LSTM / MediaPipe"],
-      ["임베디드", "Raspberry Pi / OpenCV"],
+      ["임베디드", "Raspberry Pi / Sensor Engineering"],
       ["통신", "TCP Socket (Python)"],
-      ["인프라", "GCP / HTML5 Web"]
+      ["인프라", "GCP / Bootstrap"]
     ]
   }}
 />
@@ -93,4 +113,12 @@ model = Sequential([
   </Column>
 </Grid>
 
-역할을 명확하게 나누고 인터페이스만 잘 정의하면 4명이 병렬로 개발할 수 있다는 걸 이 프로젝트에서 배웠습니다.
+
+## Lesson & Learned
+
+같은 연구실 동료들이였기 때문에 3개월간 함께 고민하고
+각자의 나누어진 역할에 학습하고 배운점은 공유하며 프로젝트의 기획을 탄탄하게 진행할 수 있었습니다.
+
+큰 프로젝트일수록 혼자보다 함께 협업하고 서로 보완하는 Soft Skill의 중요성도 크게 체감할 수 있었던 프로젝트였습니다. 
+
+![news](/projects/embedded-sw/news.png)

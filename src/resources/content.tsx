@@ -374,6 +374,12 @@ const about: About = {
     title: "Study",
     items: [
       {
+        title: "STM 이용 확대를 위한 신기술 활용 방안",
+        venue: "한국지능정보시스템학회",
+        year: "2023",
+        description: "STM 활용 확대를 위한 신기술 적용 방안 제안",
+      },
+      {
         title: "PPG 기반 딥러닝 혈압 추정 연구",
         venue: "한국통신학회 (KCA)",
         year: "2022",
