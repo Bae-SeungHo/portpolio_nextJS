@@ -95,12 +95,17 @@ export default async function AdminPage() {
       <div style={{ background: "#1a1a1a", borderRadius: 12, padding: "1.25rem", marginBottom: "1.5rem", border: "0.5px solid #333" }}>
         <h2 style={{ fontSize: 16, fontWeight: 500, color: "#fff", marginBottom: "1rem" }}>월간 통계</h2>
         {/* 월별 그룹핑 */}
-        {Object.entries(
-          (monthly ?? []).reduce((acc, row) => {
-            const month = new Date(row.month).toLocaleDateString("ko-KR", { year: "numeric", month: "long" });
-            acc[month] = (acc[month] || 0) + Number(row.view_count);
-            return acc;
-          }, {} as Record<string, number>)
+        {(
+          Object.entries(
+            (monthly ?? []).reduce((acc, row) => {
+              const month = new Date(row.month).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+              });
+              acc[month] = (acc[month] || 0) + Number(row.view_count);
+              return acc;
+            }, {} as Record<string, number>)
+          ) as [string, number][]
         ).map(([month, count], i) => (
           <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderTop: i > 0 ? "0.5px solid #333" : "none", color: "#ccc", fontSize: 13 }}>
             <span>{month}</span>
