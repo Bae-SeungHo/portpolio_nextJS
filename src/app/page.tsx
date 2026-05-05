@@ -19,8 +19,8 @@ import CasualIntroSection from "@/components/CasualIntroSection";
 import ContactChallenge from "@/components/ContactChallenge";
 import MiniTerminal from "@/components/MiniTerminal";
 import { TypewriterRole } from "@/components/TypewriterRole";
-
 import {
+  VisitorCounter,
   StatusBadge,
   ImpactStats,
   SkillGrid,
@@ -345,6 +345,8 @@ export default function Home() {
           </Column>
         </div>
       </RevealFx>
+
+      <VisitorCounter />
     </Column>
   );
 }

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import LanguageToggle from "@/components/LanguageToggle";
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, work, gallery } from "@/resources";
@@ -166,7 +166,26 @@ export const Header = () => {
                   </Row>
                 </>
               )}
-              {/* <a href="/terminal" style={{
+              {routes["/admin"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="openLink"
+                      href="/admin"
+                      label="System"
+                      selected={pathname.startsWith("/admin")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="openLink"
+                      href="/admin"
+                      selected={pathname.startsWith("/admin")}
+                    />
+                  </Row>
+                </>
+              )}
+              {/* <a href="/admin" style={{
                 padding: "4px 12px", borderRadius: 6,
                 border: "0.5px solid var(--neutral-alpha-medium)",
                 fontSize: 12, fontFamily: "monospace",
@@ -174,7 +193,7 @@ export const Header = () => {
                 textDecoration: "none",
                 background: "var(--background-overlay)",
               }}>
-                &gt;_ terminal
+                &gt;_ system
               </a> */}
               {display.themeSwitcher && (
                 <>
@@ -182,6 +201,7 @@ export const Header = () => {
                   <ThemeToggle />
                 </>
               )}
+              {/* <LanguageToggle /> */}
             </Row>
           </Row>
         </Row>

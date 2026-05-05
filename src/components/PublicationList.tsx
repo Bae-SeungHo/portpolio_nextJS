@@ -34,7 +34,7 @@ const PUBLICATIONS: Publication[] = [
     authors: "배승호, 김민성, 이현정, 김규형 (영남대, ETRI)",
     abstract: "PPG 신호의 형태와 시간 영역 특성을 활용한 3-Branch CNN-LSTM 모델. MIMIC-III 기반 MAE 8.924 mmHg 달성. 단일 Branch 대비 약 12% 성능 향상.",
     keywords: ["PPG", "CNN-LSTM", "혈압 추정", "MIMIC-III"],
-    paperImages: ["/paper/ppg-paper-1.png", "/paper/ppg-paper-2.png"],
+    paperImages: ["/paper/ppg_1.jpg", "/paper/ppg_2.jpg","/paper/ppg_3.jpg"],
   },
   {
     title: "딥러닝 기반 양치질 습관 분석 시스템 개발",
@@ -45,7 +45,7 @@ const PUBLICATIONS: Publication[] = [
     abstract: "임베디드 보드 카메라로 양치 영상을 수집하고 LSTM으로 양치 방향 분류. MediaPipe 기반 36개 Landmark 활용. 클라우드 웹 서비스로 미흡 부위 시각화.",
     keywords: ["LSTM", "MediaPipe", "양치 습관", "임베디드"],
     award: "우수논문발표상",
-    paperImages: ["/paper/brushing-paper-1.png", "/paper/brushing-paper-2.png"],
+    paperImages: ["/paper/brushing_1.jpg", "/paper/brushing_2.jpg"],
   },
   {
     title: "세그멘테이션 기반 항공사진 분석 모델의 최적화 연구",
@@ -55,7 +55,7 @@ const PUBLICATIONS: Publication[] = [
     authors: "배승호, 박용완 (영남대)",
     abstract: "Deeplab v3+ 기반 항공사진 Semantic Segmentation. Scribble Weakly-Supervised + Shadow Removal + 데이터 증강으로 Accuracy 72% → 97%, mIoU 61% → 93% 달성.",
     keywords: ["Deeplab v3+", "Shadow Removal", "Weakly-Supervised", "드론"],
-    paperImages: ["/paper/aerial-paper-1.png", "/paper/aerial-paper-2.png"],
+    paperImages: ["/paper/aerial_1.jpg","/paper/aerial_2.jpg","/paper/aerial_3.jpg","/paper/aerial_4.jpg"],
   },
   {
     title: "영상처리 기반 Eye-Features Extraction의 성능 향상 연구",
@@ -65,7 +65,7 @@ const PUBLICATIONS: Publication[] = [
     authors: "배승호, 김민수, 정승필, 박용완 (영남대, 영남대 의료원)",
     abstract: "CNN + Dlib facial landmark 결합 Blink Detection과 Adaptive Thresholding Eye Tracking 제안. 뜬눈 98%, 감은눈 94% 분류 성능 달성.",
     keywords: ["Eye Tracking", "Blink Detection", "CNN", "Adaptive Thresholding"],
-    paperImages: ["/paper/eye-paper-1.png", "/paper/eye-paper-2.png"],
+    paperImages: ["/paper/eye_1.jpg","/paper/eye_2.jpg"],
   },
   {
     title: "딥러닝 기반 환자 모니터링 시스템",
@@ -75,7 +75,7 @@ const PUBLICATIONS: Publication[] = [
     authors: "배승호, 임창한, 박용완 (영남대)",
     abstract: "낙상·제스처·배회 감지 AI 시스템. Raspberry PI + 서버 TCP 멀티프로세스. 낙상 90%, 제스처 96% 인식률. 간호사 호출·사진 촬영 제스처 포함.",
     keywords: ["환자 모니터링", "낙상 감지", "MediaPipe", "TCP 통신"],
-    paperImages: ["/paper/patient-paper-1.png", "/paper/patient-paper-2.png"],
+    paperImages: ["/paper/patients_1.jpg","/paper/patients_2.jpg","/paper/patients_3.jpg","/paper/patients_4.jpg","/paper/patients_5.jpg","/paper/patients_6.jpg"],
   },
   {
     title: "비접촉 광학식 주행거리계를 이용한 배관 내부 손상 위치 추정",
@@ -85,7 +85,7 @@ const PUBLICATIONS: Publication[] = [
     authors: "이빈, 배승호, 임창한, 박용완 (영남대)",
     abstract: "접촉식 주행거리계의 한계를 보완하는 비접촉 광학식 주행거리계 제안. 텔레센트릭 렌즈 + Optical flow로 배관 내부 손상 위치 추정.",
     keywords: ["광학식 주행거리계", "배관 손상", "Optical flow"],
-    paperImages: ["/paper/pipeline-paper-1.png"],
+    paperImages: ["/paper/pipe_1.jpg","/paper/pipe_2.jpg"],
   },
 ];
 

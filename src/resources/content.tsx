@@ -438,15 +438,18 @@ const gallery: Gallery = {
 
   images: [
     // KB 활동
-    { src: "/projects/kb-ai-financial/activity-1.png", alt: "KB AI 금융비서 서비스", orientation: "horizontal" },
-    { src: "/projects/kb-ai-financial/activity-2.png", alt: "KB 금융AI센터 근무", orientation: "horizontal" },
-    { src: "/projects/kb-lms/screenshot.png",           alt: "AI 학습관리 플랫폼", orientation: "horizontal" },
+    { src: "/projects/kb-ai-challenge/activity-1.png", alt: "KB AI Challenge1", orientation: "horizontal" },
+    { src: "/projects/kb-ai-challenge/activity-2.png", alt: "KB AI Challenge2", orientation: "horizontal" },
+    // { src: "/projects/kb-lms/screenshot.png",           alt: "AI 학습관리 플랫폼", orientation: "horizontal" },
     // 공모전
-    { src: "/projects/competitions/sk-challenge.png",   alt: "SK AI Challenge", orientation: "horizontal" },
+    { src: "/projects/sk-ai-challenge/sk-challenge.png",   alt: "SK AI Challenge", orientation: "horizontal" },
     { src: "/projects/embedded-sw/activity.jpg",        alt: "임베디드SW 경진대회", orientation: "horizontal" },
     // 연구 / 인턴
     { src: "/projects/etri-intern/ppg-research.png",    alt: "ETRI PPG 혈압 연구", orientation: "horizontal" },
     { src: "/projects/etri-intern/activity.jpg",        alt: "ETRI 연구소 인턴십", orientation: "horizontal" },
+    { src: "/projects/etri-intern/activity2.jpg",        alt: "ETRI 연구소 인턴십2", orientation: "horizontal" },
+    { src: "/projects/dongrami/activity.jpg",        alt: "공모전 발표", orientation: "horizontal" },
+    { src: "/projects/adhd-research/activity.jpg",        alt: "학회 발표", orientation: "vertical" },
     // 활동
     // { src: "/activities/academic-buddy.png",            alt: "Academic Buddy 멘토 활동", orientation: "horizontal" },
     // { src: "/activities/mentoring.jpg",                 alt: "취업 멘토링", orientation: "vertical" },
@@ -458,6 +461,7 @@ const gallery: Gallery = {
     { src: "/story/kb1.jpg",                        alt: "나의 이야기", orientation: "vertical" },
     { src: "/story/kb2.jpg",                        alt: "나의 이야기", orientation: "horizontal" },
     { src: "/story/kb3.jpg",                        alt: "나의 이야기", orientation: "horizontal" },
+    { src: "/story/its.jpg",                        alt: "나의 이야기", orientation: "horizontal" },
   ]
 };
 

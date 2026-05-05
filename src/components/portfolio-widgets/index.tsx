@@ -5,28 +5,51 @@
 "use client";
 import { useState, useEffect , useRef } from "react";
 
+
+
 // ══════════════════════════════════════════════════════════════
 // 1. 실시간 방문자 카운터 (Supabase 연동)
 // 사용: <VisitorCounter />
 // ══════════════════════════════════════════════════════════════
 export function VisitorCounter() {
-  const [count, setCount] = useState<number | null>(null);
+
+  const [total, setTotal] = useState<number | null>(null);
 
   useEffect(() => {
-    // TODO: Supabase에서 pageview 카운트 가져오기
-    // const { data } = await supabase.from("pageviews").select("count");
-    // setCount(data?.[0]?.count ?? 0);
-    setCount(1247); // 임시값
+    fetch("/api/pageview").then(r => r.json()).then(d => setTotal(d.total));
   }, []);
 
+  if (total === null) return null;
+
   return (
-    <div style={{ display:"flex", alignItems:"center", gap:8, fontSize:12, color:"var(--neutral-on-background-weak)" }}>
-      <div style={{ width:6, height:6, borderRadius:"50%", background:"#1D9E75", animation:"tlpulse 2s infinite" }} />
-      {count !== null ? `지금까지 ${count.toLocaleString()}명이 방문했어요` : "..."}
-      <style>{`@keyframes tlpulse{0%,100%{opacity:1}50%{opacity:.4}}`}</style>
+    <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--neutral-on-background-weak)" }}>
+      <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#1D9E75", animation: "tlpulse 2s infinite" }} />
+      지금까지 {total.toLocaleString()}명이 방문했어요.
     </div>
   );
 }
+  // const [count, setCount] = useState<number | null>(null);
+
+  // useEffect(() => {
+  //   const fetchCount = async () => {
+  //     // const { data } = await supabase
+  //     //   .from("total_views")
+  //     //   .select("total");
+
+  //     // setCount(data?.[0]?.count ?? 0);
+  //     setCount(1247); // 임시값 필요 없으면 제거
+  //   };
+
+  //   fetchCount();
+  // }, []);
+
+  // return (
+  //   <div style={{ display:"flex", alignItems:"center", gap:8, fontSize:12, color:"var(--neutral-on-background-weak)" }}>
+  //     <div style={{ width:6, height:6, borderRadius:"50%", background:"#1D9E75", animation:"tlpulse 2s infinite" }} />
+  //     {count !== null ? `지금까지 ${count.toLocaleString()}명이 방문했어요` : "..."}
+  //     <style>{`@keyframes tlpulse{0%,100%{opacity:1}50%{opacity:.4}}`}</style>
+  //   </div>
+  // );
 
 // ══════════════════════════════════════════════════════════════
 // 2. 현재 상태 배지 (프리랜서 가능 여부 등)

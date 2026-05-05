@@ -14,7 +14,7 @@ import {
 import { home } from "./index";
 
 // IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
-const baseURL: string = "http://localhost:3001";
+const baseURL: string = "http://localhost:3000";
 
 const routes: RoutesConfig = {
   "/": true,
@@ -23,6 +23,8 @@ const routes: RoutesConfig = {
   "/blog": true,
   "/gallery": true,
   "/terminal": false,
+  "/admin": true,
+  
 };
 
 const display: DisplayConfig = {
@@ -34,7 +36,7 @@ const display: DisplayConfig = {
 // Enable password protection on selected routes
 // Set password in the .env file, refer to .env.example
 const protectedRoutes: ProtectedRoutesConfig = {
-  // "/work/adhd-prediction": true,
+  "/admin": true,
 };
 
 // Import and set font for each variant
