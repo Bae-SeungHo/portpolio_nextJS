@@ -11,12 +11,26 @@ const QUICK = [
   "연락 방법은요?",
 ];
 
+<style>{`
+  @media (max-width: 768px) {
+    .chat-widget-btn {
+      bottom: 80px !important;
+    }
+    .chat-widget-panel {
+      bottom: 140px !important;
+      right: 12px !important;
+      width: calc(100vw - 24px) !important;
+      max-width: 380px !important;
+    }
+  }
+`}</style>
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       role: "assistant",
-      content: "안녕하세요! 저는 승호에 대한 AI 어시스턴트예요 😊\n궁금한 것을 뭐든 물어보세요!"
+      content: "안녕하세요! 저는 승호에 대한 AI 에이전트예요 😊\n궁금한 것을 뭐든 물어보세요!"
     }
   ]);
   const [input, setInput] = useState("");
@@ -68,9 +82,10 @@ export default function ChatWidget() {
       {/* 플로팅 버튼 */}
       <button
         onClick={() => setOpen(!open)}
+        className="chat-widget-btn"
         style={{
           position: "fixed",
-          bottom: 28,
+          top: 28,
           right: 28,
           padding: "12px 20px",
           borderRadius: 50,
@@ -95,7 +110,7 @@ export default function ChatWidget() {
         <div
             style={{
                 position: "fixed",
-                bottom: 88,
+                top: 80,
                 right: 28,
                 width: 360,
                 height: 520,

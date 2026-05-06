@@ -216,14 +216,14 @@ export default function MiniTerminal() {
         ref={scrollContainerRef}
         style={{
           flex: 1,
-          overflowY: "auto",      // ← 내부만 스크롤
+          overflowY: "auto",
           overflowX: "hidden",
           padding: "12px 14px",
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          // ↓ 이 div가 늘어나지 않도록 min-height 0 필수
-          minHeight: 0,
+          minHeight: 0,          // ← flex 컨테이너에서 줄어들 수 있게
+          maxHeight: "800px",    // ← 이 줄 추가 — 여기서 스크롤 고정
         }}
       >
         {lines.map((l, i) => (

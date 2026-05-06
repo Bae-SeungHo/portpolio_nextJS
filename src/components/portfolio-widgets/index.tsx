@@ -28,6 +28,35 @@ export function VisitorCounter() {
     </div>
   );
 }
+
+// "use client";
+// import { useEffect, useState } from "react";
+
+// export default function VisitorCounter() {
+//   const [unique, setUnique] = useState<number | null>(null);
+
+//   useEffect(() => {
+//     fetch("/api/pageview?type=unique")
+//       .then(r => r.json())
+//       .then(d => setUnique(d.count));
+//   }, []);
+
+//   if (unique === null) return null;
+
+//   return (
+//     <div style={{
+//       display: "flex", alignItems: "center", gap: 6,
+//       fontSize: 12, color: "var(--neutral-on-background-weak)",
+//     }}>
+//       <div style={{
+//         width: 6, height: 6, borderRadius: "50%",
+//         background: "#1D9E75",
+//         animation: "tlpulse 2s infinite",
+//       }} />
+//       지금까지 {unique.toLocaleString()}명이 다녀갔어요
+//     </div>
+//   );
+// }
   // const [count, setCount] = useState<number | null>(null);
 
   // useEffect(() => {

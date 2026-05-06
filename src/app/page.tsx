@@ -151,6 +151,8 @@ export default function Home() {
                 width: "100%",
                 // ↓ 고정 높이 지정 — 터미널이 길어져도 이 높이 유지
                 height: 800,
+                maxHeight: 800,       // ← 추가
+                overflow: "hidden",
               }}
             >
               {/* 프로필 이미지 */}
@@ -161,6 +163,7 @@ export default function Home() {
                   overflow: "hidden",
                   // height를 부모(480px)에 맞춤
                   height: "100%",
+                  maxHeight:800,
                   background: "var(--neutral-alpha-weak)",
                 }}
               >
@@ -209,7 +212,11 @@ export default function Home() {
               </div>
 
               {/* 미니 터미널 — height 100% 로 부모 480px에 맞춤 */}
-              <div style={{ height: "100%" }}>
+              <div style={{
+                height: "100%",
+                maxHeight: 800,
+                overflow: "hidden"
+              }}>
                 <MiniTerminal />
               </div>
             </div>
