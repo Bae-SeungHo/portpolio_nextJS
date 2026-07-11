@@ -1,5 +1,9 @@
 // src/components/ContactChallenge.tsx
 "use client";
+
+console.log('여기에 변수');
+console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
+
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 

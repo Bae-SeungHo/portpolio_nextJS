@@ -342,10 +342,10 @@ export default function Home() {
           <Column gap="m" style={{ width: "100%", maxWidth: 520 }}>
             <Column gap="xs">
               <Heading as="h2" variant="display-strong-s">
-                안녕하세요!
+                안녕하세요.
               </Heading>
               <Text variant="body-default-s" onBackground="neutral-weak">
-                채용, 협업, 그냥 인사 — 어떤 이유든 환영이에요.
+                저에게 메시지를 남겨주세요!
               </Text>
             </Column>
             <ContactChallenge />

@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-const SY = 2017, EY = 2026.7, TM = (EY - SY) * 12;
+const SY = 2017, EY = 2026.9, TM = (EY - SY) * 12;
 const mo = (y: number, m: number) => (y - SY) * 12 + (m - 1);
 const pc = (o: number) => `${(o / TM * 100).toFixed(2)}%`;
 const sp = (s: number, e: number) => `${((e - s) / TM * 100).toFixed(2)}%`;
@@ -72,6 +72,10 @@ export const TIMELINE_ACTS = [
     sy:2025,sm:6,  ey:2026,em:4,  d:"다수 챗봇 통합 운영 · 관리 플랫폼 개발 · 클라우드 환경 구축",      g:["FastAPI","Flask","MySQL","AWS","Redis","DL","JS","HTMX"] },
   { c:"kb",     t:"생성형 AI 챗봇 고도화",   en:"Enhancing Generative AI Chatbots",
     sy:2026,sm:4,  ey:2026,em:5,  d:"RAG 기반 생성형 AI 챗봇 시스템 구축 (직원용 챗봇 -> 고객용 챗봇)",      g:["RAG","AI Agent","LLM"] },
+  { c:"kb",     t:"KB 화상상담시스템 개발",   en:"Video Consultation System",
+    sy:2026,sm:6,  ey:2026,em:7,  d:"KB 비대면상담 및 상품판매 서비스 개발",      g:["Vision","Devops"] },
+  { c:"kb",     t:"KB 국비지원 교육 멘토링",   en:"K-Digital Training Mentoring",
+    sy:2026,sm:7,  ey:2026,em:7,  d:"KB IT's your life 교육 프로그램 멘토링",      g:["사회공헌","멘토링"] },
   
 ];
 
@@ -318,8 +322,8 @@ function TimelineMatrix() {
               );
             })}
           </div>
+          </div>
         </div>
-      </div>
 
       {active && (() => {
         const c = catMap[active.c];

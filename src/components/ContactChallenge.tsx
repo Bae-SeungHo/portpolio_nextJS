@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
+// console.log("URL =", process.env.NEXT_PUBLIC_SUPABASE_URL);
+// console.log("KEY =", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+// console.log(process.env)
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -57,10 +61,10 @@ export default function ContactChallenge() {
       maxWidth: 480,
     }}>
       <p style={{ fontSize: 16, fontWeight: 500, color: "var(--neutral-on-background-strong)", marginBottom: 4 }}>
-        잠깐, 어떤 분이세요?
+        반가워요 어떤 분이신가요 ? 
       </p>
       <p style={{ fontSize: 13, color: "var(--neutral-on-background-weak)", marginBottom: "1.25rem" }}>
-        더 알아갔으면 좋겠어요.
+        어떤 질문도 환영이에요.
       </p>
 
       {step !== "done" && (
